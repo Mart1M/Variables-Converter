@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Figma Variables</title>
+    <style id="figma-style"></style>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        padding: 2%;
+        padding-top: 50px;
+      }
+      pre {
+        text-align: left;
+        background-color: var(--figma-color-bg-secondary);
+        color: var(--figma-color-text-secondary);
+        padding: 10px;
+        border-radius: 8px;
+        height: auto;
+        overflow: auto;
+      }
+      button {
+        padding: 8px 16px;
+        font-size: 14px;
+        font-family: Inter, sans-serif;
+        font-weight: 500;
+        cursor: pointer;
+        border-radius: 6px;
+        border: none;
+        color: var(--figma-color-text-onbrand);
+        background-color: var(--figma-color-bg-brand);
+        width: 100%;
+        position: relative;
+      }
+      button:hover {
+        background-color: var(--figma-color-bg-brand-hover);
+      }
+      .tooltip {
+        visibility: hidden;
+        width: 120px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        margin-left: -60px;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      button:hover .tooltip {
+        visibility: visible;
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <button onclick="copyToClipboard()">
+      Copy to clipboard<span class="tooltip">Copied!</span>
+    </button>
+    <pre id="output"></pre>
+    <script>
+      window.onmessage = (event) => {
+        const { pluginMessage } = event.data;
+        if (pluginMessage.type === "colorData") {
+          const outputElement = document.getElementById("output");
+          outputElement.textContent = JSON.stringify(
+            pluginMessage.data,
+            null,
+            2
+          );
+        }
+      };
+
+      function copyToClipboard() {
+        const str = document.getElementById("output").textContent;
+        const el = document.createElement("textarea");
+        el.value = str;
+        el.setAttribute("readonly", "");
+        el.style = { position: "absolute", left: "-9999px" };
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand("copy");
+        document.body.removeChild(el);
+        var tooltip = document.querySelector(".tooltip");
+        tooltip.style.visibility = "visible";
+        setTimeout(function () {
+          tooltip.style.visibility = "hidden";
+        }, 2000);
+      }
+      function sendToOpenAI() {
+        const str = document.getElementById("output").textContent;
+        parent.postMessage(
+          { pluginMessage: { type: "sendToOpenAI", data: str } },
+          "*"
+        );
+        var tooltip = document.querySelector(".tooltip");
+        tooltip.style.visibility = "visible";
+        setTimeout(function () {
+          tooltip.style.visibility = "hidden";
+        }, 2000);
+      }
+    </script>
+  </body>
+</html>
