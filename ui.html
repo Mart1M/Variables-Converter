@@ -171,26 +171,56 @@
             const transformed = {};
             for (const key in json) {
                 const value = json[key];
-                // Check if the value has a Mode object
-                if (value.Mode) {
-                    for (const modeKey in value.Mode) {
-                        const modeValue = value.Mode[modeKey];
-                        if (
-                            typeof modeValue === "object" &&
-                            modeValue.type !== "VARIABLE_ALIAS"
-                        ) {
-                            const color = rgbaToHex(modeValue);
-                            // Add color as a parent of the key.
-                            if (!transformed["colors"]) {
-                                transformed["colors"] = {};
+                // Check if the value is an object and contains a Mode object
+                if (value && typeof value === 'object') {
+                    if (value.Mode) {
+                        processColor(value, transformed, key);
+                    } else {
+                        for (const innerKey in value) {
+                            if (value[innerKey] && value[innerKey].Mode) {
+                                processColor(value[innerKey], transformed, `${key}/${innerKey}`);
                             }
-                            transformed["colors"][key] = color;
                         }
                     }
                 }
             }
-            return transformed;
+            return {
+                "colors": transformed
+            };
         }
+
+        function processColor(value, transformed, key) {
+            for (const modeKey in value.Mode) {
+                const modeValue = value.Mode[modeKey];
+                if (modeValue && typeof modeValue === "object" && modeValue.r !== undefined) {
+                    const color = rgbaToHex(modeValue);
+                    addToHierarchy(transformed, key, color);
+                }
+            }
+        }
+
+        function addToHierarchy(transformed, key, color) {
+            const parts = key.split('/');
+            let current = transformed;
+            for (let i = 0; i < parts.length; i++) {
+                const part = parts[i];
+                if (i === parts.length - 1) {
+                    current[part] = color;
+                } else {
+                    if (!(part in current)) {
+                        current[part] = {};
+                    }
+                    current = current[part];
+                }
+            }
+        }
+
+
+
+
+
+
+
 
 
         function rgbaToHex(rgba) {
