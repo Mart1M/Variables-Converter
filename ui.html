@@ -18,7 +18,8 @@
         
         pre {
             text-align: left;
-            background-color: #f0f0f0;
+            background-color: var(--figma-color-bg-secondary);
+            color: var(--figma-color-text);
             padding: 10px;
             border-radius: 8px;
             height: auto;
@@ -80,16 +81,22 @@
             width: 100%;
             display: flex;
             justify-content: center;
+            border-bottom: 1px solid var(--figma-color-border);
+            height: 32px;
+            align-items: center;
+            color: var(--figma-color-text);
         }
         
         .tabs {
             display: flex;
-            margin-bottom: 24px;
+            margin-bottom: 48px;
+            height: 32px;
         }
         
         .tab.active {
             border-bottom: 4px solid var(--figma-color-bg-brand);
-            background-color: #f1f1f1;
+            background-color: var(--figma-color-bg-secondary);
+            border-radius: 8px 8px 0px 0px;
         }
         
         #tab2 {
@@ -104,14 +111,25 @@
         .tab-content.active {
             display: block;
         }
+        
+        #content2 button {
+            margin-bottom: 8px;
+        }
+        
+        #content1 button {
+            margin-bottom: 8px;
+        }
     </style>
 </head>
 
 <body>
     <div class="tabs">
-        <div class="tab" id="tab1" onclick="changeTab('tab1')">JSON</div>
+        <div class="tab" id="tab1" onclick="changeTab('tab1')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: var(--figma-color-text);"><path d="M12.823 15.122c-.517 0-.816.491-.816 1.146 0 .661.311 1.126.82 1.126.517 0 .812-.49.812-1.146 0-.604-.291-1.126-.816-1.126z"></path><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM8.022 16.704c0 .961-.461 1.296-1.2 1.296-.176 0-.406-.029-.557-.08l.086-.615c.104.035.239.06.391.06.319 0 .52-.145.52-.67v-2.122h.761v2.131zm1.459 1.291c-.385 0-.766-.1-.955-.205l.155-.631c.204.105.521.211.846.211.35 0 .534-.146.534-.365 0-.211-.159-.331-.564-.476-.562-.195-.927-.506-.927-.996 0-.576.481-1.017 1.277-1.017.38 0 .659.08.861.171l-.172.615c-.135-.065-.375-.16-.705-.16s-.491.15-.491.325c0 .215.19.311.627.476.596.22.876.53.876 1.006.001.566-.436 1.046-1.362 1.046zm3.306.005c-1.001 0-1.586-.755-1.586-1.716 0-1.012.646-1.768 1.642-1.768 1.035 0 1.601.776 1.601 1.707C14.443 17.33 13.773 18 12.787 18zm4.947-.055h-.802l-.721-1.302a12.64 12.64 0 0 1-.585-1.19l-.016.005c.021.445.031.921.031 1.472v1.016h-.701v-3.373h.891l.701 1.236c.2.354.4.775.552 1.155h.014c-.05-.445-.065-.9-.065-1.406v-.985h.702v3.372zM14 9h-1V4l5 5h-4z"></path></svg>
+            <span>JSON</span>
+        </div>
         <div class="tab" id="tab2" onclick="changeTab('tab2')">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M18.5 9.51a4.22 4.22 0 0 1-1.91-1.34A5.77 5.77 0 0 0 12 6a4.72 4.72 0 0 0-5 4 3.23 3.23 0 0 1 3.5-1.49 4.32 4.32 0 0 1 1.91 1.35A5.77 5.77 0 0 0 17 12a4.72 4.72 0 0 0 5-4 3.2 3.2 0 0 1-3.5 1.51zm-13 4.98a4.22 4.22 0 0 1 1.91 1.34A5.77 5.77 0 0 0 12 18a4.72 4.72 0 0 0 5-4 3.23 3.23 0 0 1-3.5 1.49 4.32 4.32 0 0 1-1.91-1.35A5.8 5.8 0 0 0 7 12a4.72 4.72 0 0 0-5 4 3.2 3.2 0 0 1 3.5-1.51z"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: var(--figma-color-text);"><path d="M18.5 9.51a4.22 4.22 0 0 1-1.91-1.34A5.77 5.77 0 0 0 12 6a4.72 4.72 0 0 0-5 4 3.23 3.23 0 0 1 3.5-1.49 4.32 4.32 0 0 1 1.91 1.35A5.77 5.77 0 0 0 17 12a4.72 4.72 0 0 0 5-4 3.2 3.2 0 0 1-3.5 1.51zm-13 4.98a4.22 4.22 0 0 1 1.91 1.34A5.77 5.77 0 0 0 12 18a4.72 4.72 0 0 0 5-4 3.23 3.23 0 0 1-3.5 1.49 4.32 4.32 0 0 1-1.91-1.35A5.8 5.8 0 0 0 7 12a4.72 4.72 0 0 0-5 4 3.2 3.2 0 0 1 3.5-1.51z"></path></svg>
             <span>TailwindCSS</span>
         </div>
     </div>
@@ -120,6 +138,7 @@
 
     <div id="content1" class="tab-content">
         <button onclick="copyToClipboard()">Copy to clipboard<span class="tooltip">Copied!</span></button>
+        <button onclick="downloadJson()" id="downloadButton">Download JSON</button>
         <pre id="output"></pre>
 
         <!-- Vous pouvez ajouter d'autres éléments ici -->
@@ -127,6 +146,8 @@
 
     <div id="content2" class="tab-content">
         <button onclick="copyToClipboardTailwind()">Copy to clipboard<span class="tooltip">Copied!</span></button>
+        <button onclick="downloadJsonTailwind()" id="downloadButton">Download JSON</button>
+
         <pre id="outputTailwind"></pre>
         <!-- Vous pouvez ajouter d'autres éléments ici -->
     </div>
@@ -190,14 +211,29 @@
         }
 
         function processColor(value, transformed, key) {
-            for (const modeKey in value.Mode) {
-                const modeValue = value.Mode[modeKey];
+            const modes = Object.keys(value.Mode);
+            if (modes.length === 1) {
+                const modeValue = value.Mode[modes[0]];
                 if (modeValue && typeof modeValue === "object" && modeValue.r !== undefined) {
                     const color = rgbaToHex(modeValue);
                     addToHierarchy(transformed, key, color);
                 }
+            } else {
+                for (let i = 0; i < modes.length; i++) {
+                    const modeKey = modes[i];
+                    const modeValue = value.Mode[modeKey];
+                    if (modeValue && typeof modeValue === "object" && modeValue.r !== undefined) {
+                        const color = rgbaToHex(modeValue);
+                        if (i === 0) {
+                            addToHierarchy(transformed, `${key}/DEFAULT`, color);
+                        }
+                        addToHierarchy(transformed, `${key}/${modeKey.toLowerCase()}`, color);
+                    }
+                }
             }
         }
+
+
 
         function addToHierarchy(transformed, key, color) {
             const parts = key.split('/');
@@ -214,13 +250,6 @@
                 }
             }
         }
-
-
-
-
-
-
-
 
 
         function rgbaToHex(rgba) {
@@ -300,6 +329,54 @@
                 }
             });
         }
+
+
+        function downloadJsonTailwind() {
+            // Get the formatted JSON data
+            const data = document.getElementById('outputTailwind').textContent;
+            // Create a Blob object from the data
+            const blob = new Blob([data], {
+                type: 'application/json'
+            });
+            // Create a URL for the Blob object
+            const url = URL.createObjectURL(blob);
+
+            // Create a temporary anchor element and set the href to the Blob URL
+            const a = document.createElement('a');
+            a.href = url;
+            // Set the download attribute to specify the filename
+            a.download = 'data.json';
+            // Append the anchor element to the body
+            document.body.appendChild(a);
+            // Programmatically click the anchor element to start the download
+            a.click();
+            // Finally, remove the anchor element from the body
+            document.body.removeChild(a);
+        }
+
+        function downloadJson() {
+            // Get the formatted JSON data
+            const data = document.getElementById('output').textContent;
+            // Create a Blob object from the data
+            const blob = new Blob([data], {
+                type: 'application/json'
+            });
+            // Create a URL for the Blob object
+            const url = URL.createObjectURL(blob);
+
+            // Create a temporary anchor element and set the href to the Blob URL
+            const a = document.createElement('a');
+            a.href = url;
+            // Set the download attribute to specify the filename
+            a.download = 'data.json';
+            // Append the anchor element to the body
+            document.body.appendChild(a);
+            // Programmatically click the anchor element to start the download
+            a.click();
+            // Finally, remove the anchor element from the body
+            document.body.removeChild(a);
+        }
+
 
         // Sélectionnez l'onglet 1 par défaut
         window.onload = function() {
