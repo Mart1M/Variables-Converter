@@ -33,90 +33,18 @@ async function sendCollectionNamesAndIds() {
 sendCollectionNamesAndIds();
 
 
-async function getAllColorVariables(collectionId: string) {
-  let colorVariableData: VariableData[] = [];
-  const allVariables = await figma.variables.getLocalVariables("COLOR");
-  const collections = await figma.variables.getLocalVariableCollections();
-
-  const selectedCollection = await figma.variables.getVariableCollectionById(collectionId);
-
-  if (!selectedCollection) {
-    console.error('Collection not found');
-    return [];
-  }
-
-
-  const getVariableNameById = async (variableId: string): Promise<string> => {
-    if (typeof variableId === "string") {
-      const variable = await figma.variables.getVariableById(variableId);
-      return variable ? variable.name : "";
-    }
-    return "";
-  };
-
-  const getModeNameById = (modeId: string): string => {
-    for (const collection of collections) {
-      const mode = collection.modes.find((m) => m.modeId === modeId);
-      if (mode) {
-        return mode.name;
-      }
-    }
-    return "";
-  };
-
-  const getValueName = async (valueId: string): Promise<string> => {
-    const variableId = valueId.split(":").slice(0, -1).join(":");
-    const variable = allVariables.find((v) => v.id === variableId);
-    return variable ? variable.name : valueId;
-  };
-
-  const selectedVariableIds = selectedCollection ? selectedCollection.variableIds : []; // Récupérer les IDs des variables de la collection sélectionnée
-
-  for (let variable of allVariables) {
-    if (variable && selectedVariableIds.includes(variable.id)) { // Vérifier si la variable fait partie de la collection sélectionnée
-      let Mode: ModeValue = {};
-      for (const modeKey in variable.valuesByMode) {
-        const value = variable.valuesByMode[modeKey];
-        if (
-          typeof value === "object" &&
-          (value as any).type === "VARIABLE_ALIAS"
-        ) {
-          const aliasValue = value as {
-            type: "VARIABLE_ALIAS";
-            id: string;
-            name: string;
-          };
-          const valueId = aliasValue.id;
-          const valueName = await getVariableNameById(valueId);
-          const valueWithNames: ColorValue = {
-            type: "VARIABLE_ALIAS",
-            id: valueId,
-            name: valueName,
-          };
-          Mode[getModeNameById(modeKey)] = valueWithNames;
-        } else {
-          Mode[getModeNameById(modeKey)] = value as RGBA;
-        }
-      }
-      colorVariableData.push({
-        id: variable.id,
-        name: variable.name,
-        description: variable.description,
-        type: variable.resolvedType,
-        Mode,
-      });
-    }
-  }
-
-  return colorVariableData;
-}
-
-
-
-// async function getAllColorVariables() {
+// async function getAllColorVariables(collectionId: string) {
 //   let colorVariableData: VariableData[] = [];
 //   const allVariables = await figma.variables.getLocalVariables("COLOR");
 //   const collections = await figma.variables.getLocalVariableCollections();
+
+//   const selectedCollection = await figma.variables.getVariableCollectionById(collectionId);
+
+//   if (!selectedCollection) {
+//     console.error('Collection not found');
+//     return [];
+//   }
+
 
 //   const getVariableNameById = async (variableId: string): Promise<string> => {
 //     if (typeof variableId === "string") {
@@ -142,8 +70,10 @@ async function getAllColorVariables(collectionId: string) {
 //     return variable ? variable.name : valueId;
 //   };
 
+//   const selectedVariableIds = selectedCollection ? selectedCollection.variableIds : []; // Récupérer les IDs des variables de la collection sélectionnée
+
 //   for (let variable of allVariables) {
-//     if (variable) {
+//     if (variable && selectedVariableIds.includes(variable.id)) { // Vérifier si la variable fait partie de la collection sélectionnée
 //       let Mode: ModeValue = {};
 //       for (const modeKey in variable.valuesByMode) {
 //         const value = variable.valuesByMode[modeKey];
@@ -180,6 +110,80 @@ async function getAllColorVariables(collectionId: string) {
 
 //   return colorVariableData;
 // }
+
+
+async function getAllColorVariables(collectionId: string, ignoreVariableAlias: boolean) {
+  let colorVariableData: VariableData[] = [];
+  const allVariables = await figma.variables.getLocalVariables("COLOR");
+  const collections = await figma.variables.getLocalVariableCollections();
+
+  const getVariableNameById = async (variableId: string): Promise<string> => {
+    if (typeof variableId === "string") {
+      const variable = await figma.variables.getVariableById(variableId);
+      return variable ? variable.name : "";
+    }
+    return "";
+  };
+
+  const getModeNameById = (modeId: string): string => {
+    for (const collection of collections) {
+      const mode = collection.modes.find((m) => m.modeId === modeId);
+      if (mode) {
+        return mode.name;
+      }
+    }
+    return "";
+  };
+
+  const getValueName = async (valueId: string): Promise<string> => {
+    const variableId = valueId.split(":").slice(0, -1).join(":");
+    const variable = allVariables.find((v) => v.id === variableId);
+    return variable ? variable.name : valueId;
+  };
+
+  for (let variable of allVariables) {
+    if (variable !== null && (!ignoreVariableAlias || variable.resolvedType !== "VARIABLE_ALIAS")) {
+      let Mode: ModeValue = {};
+      for (const modeKey in variable.valuesByMode) {
+        const value = variable.valuesByMode[modeKey];
+        if (ignoreVariableAlias && typeof value === "object" && value.type === "VARIABLE_ALIAS") {
+          continue; // Ignore VARIABLE_ALIAS
+        }
+        if (typeof value === "object" && value.type === "VARIABLE_ALIAS") {
+          const aliasValue = value as {
+            type: "VARIABLE_ALIAS";
+            id: string;
+            name: string;
+          };
+          const valueId = aliasValue.id;
+          const valueName = await getVariableNameById(valueId);
+          const valueWithNames: ColorValue = {
+            type: "VARIABLE_ALIAS",
+            id: valueId,
+            name: valueName,
+          };
+          Mode[getModeNameById(modeKey)] = valueWithNames;
+        } else {
+          Mode[getModeNameById(modeKey)] = value as RGBA;
+        }
+      }
+      colorVariableData.push({
+        id: variable.id,
+        name: variable.name,
+        description: variable.description,
+        type: variable.resolvedType,
+        Mode,
+      });
+    }
+  }
+
+  return colorVariableData;
+}
+
+
+
+
+
 
 function transformData(data: VariableData[]): object {
   const transformedData: any = {};
