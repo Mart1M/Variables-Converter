@@ -74,26 +74,27 @@
         
         .tab {
             cursor: pointer;
-            padding: 16px;
+            padding: 10px 14px;
             width: 100%;
             display: flex;
             justify-content: center;
-            border-bottom: 1px solid var(--figma-color-border);
-            height: 32px;
             align-items: center;
             color: var(--figma-color-text);
         }
         
         .tabs {
             display: flex;
-            margin-bottom: 48px;
-            height: 32px;
+            margin-bottom: 16px;
+            padding: 6px;
+            background-color: var(--figma-color-bg-secondary);
+            border-radius: 8px;
+            border: 1px solid var(--figma-color-border);
         }
         
         .tab.active {
-            border-bottom: 4px solid var(--figma-color-bg-brand);
-            background-color: var(--figma-color-bg-secondary);
-            border-radius: 8px 8px 0px 0px;
+            background-color: var(--figma-color-bg);
+            border-radius: 6px;
+            box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.06), 0px 1px 3px 0px rgba(16, 24, 40, 0.10);
         }
         
         #tab2 {
@@ -115,6 +116,9 @@
         
         #content1 button {
             margin-bottom: 8px;
+        }
+        
+        .ctas :first-child {
             margin-right: 16px;
         }
         
@@ -151,12 +155,16 @@
 <body>
     <div class="tabs">
         <div class="tab" id="tab1" onclick="changeTab('tab1')">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: var(--figma-color-text);"><path d="M12.823 15.122c-.517 0-.816.491-.816 1.146 0 .661.311 1.126.82 1.126.517 0 .812-.49.812-1.146 0-.604-.291-1.126-.816-1.126z"></path><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM8.022 16.704c0 .961-.461 1.296-1.2 1.296-.176 0-.406-.029-.557-.08l.086-.615c.104.035.239.06.391.06.319 0 .52-.145.52-.67v-2.122h.761v2.131zm1.459 1.291c-.385 0-.766-.1-.955-.205l.155-.631c.204.105.521.211.846.211.35 0 .534-.146.534-.365 0-.211-.159-.331-.564-.476-.562-.195-.927-.506-.927-.996 0-.576.481-1.017 1.277-1.017.38 0 .659.08.861.171l-.172.615c-.135-.065-.375-.16-.705-.16s-.491.15-.491.325c0 .215.19.311.627.476.596.22.876.53.876 1.006.001.566-.436 1.046-1.362 1.046zm3.306.005c-1.001 0-1.586-.755-1.586-1.716 0-1.012.646-1.768 1.642-1.768 1.035 0 1.601.776 1.601 1.707C14.443 17.33 13.773 18 12.787 18zm4.947-.055h-.802l-.721-1.302a12.64 12.64 0 0 1-.585-1.19l-.016.005c.021.445.031.921.031 1.472v1.016h-.701v-3.373h.891l.701 1.236c.2.354.4.775.552 1.155h.014c-.05-.445-.065-.9-.065-1.406v-.985h.702v3.372zM14 9h-1V4l5 5h-4z"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="fill: var(--figma-color-text);"><path d="M12.823 15.122c-.517 0-.816.491-.816 1.146 0 .661.311 1.126.82 1.126.517 0 .812-.49.812-1.146 0-.604-.291-1.126-.816-1.126z"></path><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM8.022 16.704c0 .961-.461 1.296-1.2 1.296-.176 0-.406-.029-.557-.08l.086-.615c.104.035.239.06.391.06.319 0 .52-.145.52-.67v-2.122h.761v2.131zm1.459 1.291c-.385 0-.766-.1-.955-.205l.155-.631c.204.105.521.211.846.211.35 0 .534-.146.534-.365 0-.211-.159-.331-.564-.476-.562-.195-.927-.506-.927-.996 0-.576.481-1.017 1.277-1.017.38 0 .659.08.861.171l-.172.615c-.135-.065-.375-.16-.705-.16s-.491.15-.491.325c0 .215.19.311.627.476.596.22.876.53.876 1.006.001.566-.436 1.046-1.362 1.046zm3.306.005c-1.001 0-1.586-.755-1.586-1.716 0-1.012.646-1.768 1.642-1.768 1.035 0 1.601.776 1.601 1.707C14.443 17.33 13.773 18 12.787 18zm4.947-.055h-.802l-.721-1.302a12.64 12.64 0 0 1-.585-1.19l-.016.005c.021.445.031.921.031 1.472v1.016h-.701v-3.373h.891l.701 1.236c.2.354.4.775.552 1.155h.014c-.05-.445-.065-.9-.065-1.406v-.985h.702v3.372zM14 9h-1V4l5 5h-4z"></path></svg>
             <span>JSON</span>
         </div>
         <div class="tab" id="tab2" onclick="changeTab('tab2')">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: var(--figma-color-text);"><path d="M18.5 9.51a4.22 4.22 0 0 1-1.91-1.34A5.77 5.77 0 0 0 12 6a4.72 4.72 0 0 0-5 4 3.23 3.23 0 0 1 3.5-1.49 4.32 4.32 0 0 1 1.91 1.35A5.77 5.77 0 0 0 17 12a4.72 4.72 0 0 0 5-4 3.2 3.2 0 0 1-3.5 1.51zm-13 4.98a4.22 4.22 0 0 1 1.91 1.34A5.77 5.77 0 0 0 12 18a4.72 4.72 0 0 0 5-4 3.23 3.23 0 0 1-3.5 1.49 4.32 4.32 0 0 1-1.91-1.35A5.8 5.8 0 0 0 7 12a4.72 4.72 0 0 0-5 4 3.2 3.2 0 0 1 3.5-1.51z"></path></svg>
-            <span>TailwindCSS</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="fill: var(--figma-color-text);"><path d="M18.5 9.51a4.22 4.22 0 0 1-1.91-1.34A5.77 5.77 0 0 0 12 6a4.72 4.72 0 0 0-5 4 3.23 3.23 0 0 1 3.5-1.49 4.32 4.32 0 0 1 1.91 1.35A5.77 5.77 0 0 0 17 12a4.72 4.72 0 0 0 5-4 3.2 3.2 0 0 1-3.5 1.51zm-13 4.98a4.22 4.22 0 0 1 1.91 1.34A5.77 5.77 0 0 0 12 18a4.72 4.72 0 0 0 5-4 3.23 3.23 0 0 1-3.5 1.49 4.32 4.32 0 0 1-1.91-1.35A5.8 5.8 0 0 0 7 12a4.72 4.72 0 0 0-5 4 3.2 3.2 0 0 1 3.5-1.51z"></path></svg>
+            <span>Tailwind Hex</span>
+        </div>
+        <div class="tab" id="tab3" onclick="changeTab('tab3')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="fill: var(--figma-color-text);"><path d="M18.5 9.51a4.22 4.22 0 0 1-1.91-1.34A5.77 5.77 0 0 0 12 6a4.72 4.72 0 0 0-5 4 3.23 3.23 0 0 1 3.5-1.49 4.32 4.32 0 0 1 1.91 1.35A5.77 5.77 0 0 0 17 12a4.72 4.72 0 0 0 5-4 3.2 3.2 0 0 1-3.5 1.51zm-13 4.98a4.22 4.22 0 0 1 1.91 1.34A5.77 5.77 0 0 0 12 18a4.72 4.72 0 0 0 5-4 3.23 3.23 0 0 1-3.5 1.49 4.32 4.32 0 0 1-1.91-1.35A5.8 5.8 0 0 0 7 12a4.72 4.72 0 0 0-5 4 3.2 3.2 0 0 1 3.5-1.51z"></path></svg>
+            <span>Tailwind HSL</span>
         </div>
     </div>
 
@@ -164,7 +172,6 @@
 
     <div id="content1" class="tab-content">
         <div class="ctas">
-
             <button onclick="downloadJson()" id="downloadButton">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.5 12.5V13.5C17.5 14.9001 17.5 15.6002 17.2275 16.135C16.9878 16.6054 16.6054 16.9878 16.135 17.2275C15.6002 17.5 14.9001 17.5 13.5 17.5H6.5C5.09987 17.5 4.3998 17.5 3.86502 17.2275C3.39462 16.9878 3.01217 16.6054 2.77248 16.135C2.5 15.6002 2.5 14.9001 2.5 13.5V12.5M14.1667 8.33333L10 12.5M10 12.5L5.83333 8.33333M10 12.5V2.5" stroke="var(--figma-color-icon-onbrand
@@ -184,25 +191,41 @@
 </clipPath>
 </defs>
 </svg>
-
-
                 Copy to clipboard
                 <span class="tooltip">Copied!</span>
             </button>
         </div>
 
+
         <code><pre id="output"></pre></code>
 
-
-        <!-- Vous pouvez ajouter d'autres éléments ici -->
     </div>
 
     <div id="content2" class="tab-content">
-        <button onclick="copyToClipboardTailwind()">Copy to clipboard<span class="tooltip">Copied!</span></button>
-        <button onclick="downloadJsonTailwind()" id="downloadButton">Download JSON</button>
-
+        <div class="ctas">
+            <button onclick="downloadJsonTailwind()" id="downloadButton">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.5 12.5V13.5C17.5 14.9001 17.5 15.6002 17.2275 16.135C16.9878 16.6054 16.6054 16.9878 16.135 17.2275C15.6002 17.5 14.9001 17.5 13.5 17.5H6.5C5.09987 17.5 4.3998 17.5 3.86502 17.2275C3.39462 16.9878 3.01217 16.6054 2.77248 16.135C2.5 15.6002 2.5 14.9001 2.5 13.5V12.5M14.1667 8.33333L10 12.5M10 12.5L5.83333 8.33333M10 12.5V2.5" stroke="var(--figma-color-icon-onbrand)" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Download JSON</button>
+            <button onclick="copyToClipboardTailwind()" class="secondary">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_116_1255)"><path d="M6.66669 13.3334V15.6667C6.66669 16.6002 6.66669 17.0669 6.84834 17.4234C7.00813 17.737 7.2631 17.992 7.5767 18.1518C7.93322 18.3334 8.39993 18.3334 9.33335 18.3334H15.6667C16.6001 18.3334 17.0668 18.3334 17.4233 18.1518C17.7369 17.992 17.9919 17.737 18.1517 17.4234C18.3334 17.0669 18.3334 16.6002 18.3334 15.6667V9.33341C18.3334 8.39999 18.3334 7.93328 18.1517 7.57676C17.9919 7.26316 17.7369 7.00819 17.4233 6.8484C17.0668 6.66675 16.6001 6.66675 15.6667 6.66675H13.3334M4.33335 13.3334H10.6667C11.6001 13.3334 12.0668 13.3334 12.4233 13.1518C12.7369 12.992 12.9919 12.737 13.1517 12.4234C13.3334 12.0669 13.3334 11.6002 13.3334 10.6667V4.33341C13.3334 3.39999 13.3334 2.93328 13.1517 2.57676C12.9919 2.26316 12.7369 2.00819 12.4233 1.8484C12.0668 1.66675 11.6001 1.66675 10.6667 1.66675H4.33335C3.39993 1.66675 2.93322 1.66675 2.5767 1.8484C2.2631 2.00819 2.00813 2.26316 1.84834 2.57676C1.66669 2.93328 1.66669 3.39999 1.66669 4.33341V10.6667C1.66669 11.6002 1.66669 12.0669 1.84834 12.4234C2.00813 12.737 2.2631 12.992 2.5767 13.1518C2.93322 13.3334 3.39993 13.3334 4.33335 13.3334Z" stroke="var(--figma-color-icon)" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_116_1255"><rect width="20" height="20" fill="var(--figma-color-icon)"/></clipPath></defs></svg>
+                Copy to clipboard
+                <span class="tooltip">Copied!</span>
+            </button>
+        </div>
         <pre id="outputTailwind"></pre>
-        <!-- Vous pouvez ajouter d'autres éléments ici -->
+    </div>
+    <div id="content3" class="tab-content">
+        <div class="ctas">
+            <button onclick="downloadJsonTailwindHsl()" id="downloadButton">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.5 12.5V13.5C17.5 14.9001 17.5 15.6002 17.2275 16.135C16.9878 16.6054 16.6054 16.9878 16.135 17.2275C15.6002 17.5 14.9001 17.5 13.5 17.5H6.5C5.09987 17.5 4.3998 17.5 3.86502 17.2275C3.39462 16.9878 3.01217 16.6054 2.77248 16.135C2.5 15.6002 2.5 14.9001 2.5 13.5V12.5M14.1667 8.33333L10 12.5M10 12.5L5.83333 8.33333M10 12.5V2.5" stroke="var(--figma-color-icon-onbrand)" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Download JSON</button>
+            <button onclick="copyToClipboardTailwindHsl()" class="secondary">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_116_1255)"><path d="M6.66669 13.3334V15.6667C6.66669 16.6002 6.66669 17.0669 6.84834 17.4234C7.00813 17.737 7.2631 17.992 7.5767 18.1518C7.93322 18.3334 8.39993 18.3334 9.33335 18.3334H15.6667C16.6001 18.3334 17.0668 18.3334 17.4233 18.1518C17.7369 17.992 17.9919 17.737 18.1517 17.4234C18.3334 17.0669 18.3334 16.6002 18.3334 15.6667V9.33341C18.3334 8.39999 18.3334 7.93328 18.1517 7.57676C17.9919 7.26316 17.7369 7.00819 17.4233 6.8484C17.0668 6.66675 16.6001 6.66675 15.6667 6.66675H13.3334M4.33335 13.3334H10.6667C11.6001 13.3334 12.0668 13.3334 12.4233 13.1518C12.7369 12.992 12.9919 12.737 13.1517 12.4234C13.3334 12.0669 13.3334 11.6002 13.3334 10.6667V4.33341C13.3334 3.39999 13.3334 2.93328 13.1517 2.57676C12.9919 2.26316 12.7369 2.00819 12.4233 1.8484C12.0668 1.66675 11.6001 1.66675 10.6667 1.66675H4.33335C3.39993 1.66675 2.93322 1.66675 2.5767 1.8484C2.2631 2.00819 2.00813 2.26316 1.84834 2.57676C1.66669 2.93328 1.66669 3.39999 1.66669 4.33341V10.6667C1.66669 11.6002 1.66669 12.0669 1.84834 12.4234C2.00813 12.737 2.2631 12.992 2.5767 13.1518C2.93322 13.3334 3.39993 13.3334 4.33335 13.3334Z" stroke="var(--figma-color-icon)" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_116_1255"><rect width="20" height="20" fill="var(--figma-color-icon)"/></clipPath></defs></svg>
+                Copy to clipboard
+                <span class="tooltip">Copied!</span>
+            </button>
+        </div>
+        <pre id="outputTailwindHsl"></pre>
     </div>
     <script>
         window.onmessage = (event) => {
@@ -212,12 +235,15 @@
             if (pluginMessage.type === "colorData") {
                 const outputElement = document.getElementById("output");
                 const outputTailwindElement = document.getElementById("outputTailwind");
+                const outputTailwindElementHSL = document.getElementById("outputTailwindHsl");
                 const formattedJson = reformatJson(pluginMessage.data);
                 outputElement.textContent = JSON.stringify(formattedJson, null, 2);
 
                 // Transform the JSON to the new format and set it to the second <pre>
                 const transformedJson = transformJson(formattedJson);
+                const transformedJsonHsl = transformJsonHsl(formattedJson);
                 outputTailwindElement.textContent = JSON.stringify(transformedJson, null, 2);
+                outputTailwindElementHSL.textContent = JSON.stringify(transformedJsonHsl, null, 2);
             }
         };
 
@@ -263,6 +289,29 @@
             };
         }
 
+
+        function transformJsonHsl(json) {
+            const transformed = {};
+            for (const key in json) {
+                const value = json[key];
+                // Check if the value is an object and contains a Mode object
+                if (value && typeof value === 'object') {
+                    if (value.Mode) {
+                        processColorHsl(value, transformed, key);
+                    } else {
+                        for (const innerKey in value) {
+                            if (value[innerKey] && value[innerKey].Mode) {
+                                processColorHsl(value[innerKey], transformed, `${key}/${innerKey}`);
+                            }
+                        }
+                    }
+                }
+            }
+            return {
+                "colors": transformed
+            };
+        }
+
         function processColor(value, transformed, key) {
             const modes = Object.keys(value.Mode);
             if (modes.length === 1) {
@@ -277,6 +326,29 @@
                     const modeValue = value.Mode[modeKey];
                     if (modeValue && typeof modeValue === "object" && modeValue.r !== undefined) {
                         const color = rgbaToHex(modeValue);
+                        if (i === 0) {
+                            addToHierarchy(transformed, `${key}/DEFAULT`, color);
+                        }
+                        addToHierarchy(transformed, `${key}/${modeKey.toLowerCase()}`, color);
+                    }
+                }
+            }
+        }
+
+        function processColorHsl(value, transformed, key) {
+            const modes = Object.keys(value.Mode);
+            if (modes.length === 1) {
+                const modeValue = value.Mode[modes[0]];
+                if (modeValue && typeof modeValue === "object" && modeValue.r !== undefined) {
+                    const color = rgbaToHsl(modeValue);
+                    addToHierarchy(transformed, key, color);
+                }
+            } else {
+                for (let i = 0; i < modes.length; i++) {
+                    const modeKey = modes[i];
+                    const modeValue = value.Mode[modeKey];
+                    if (modeValue && typeof modeValue === "object" && modeValue.r !== undefined) {
+                        const color = rgbaToHsl(modeValue);
                         if (i === 0) {
                             addToHierarchy(transformed, `${key}/DEFAULT`, color);
                         }
@@ -313,6 +385,45 @@
             return "#" + ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1).toUpperCase();
         }
 
+        function rgbaToHsl(rgba) {
+            const r = rgba.r;
+            const g = rgba.g;
+            const b = rgba.b;
+
+            const max = Math.max(r, g, b);
+            const min = Math.min(r, g, b);
+
+            let h, s, l;
+            h = s = l = (max + min) / 2;
+
+            if (max === min) {
+                h = s = 0; // achromatic
+            } else {
+                const d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+
+                switch (max) {
+                    case r:
+                        h = (g - b) / d + (g < b ? 6 : 0);
+                        break;
+                    case g:
+                        h = (b - r) / d + 2;
+                        break;
+                    case b:
+                        h = (r - g) / d + 4;
+                        break;
+                }
+
+                h /= 6;
+            }
+
+            const hsl = `hsl(${Math.round(h * 360)}, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%)`;
+            return hsl;
+        }
+
+
+
+
 
         function copyToClipboard() {
             const str = document.getElementById("output").textContent;
@@ -336,6 +447,26 @@
 
         function copyToClipboardTailwind() {
             const str = document.getElementById("outputTailwind").textContent;
+            const el = document.createElement("textarea");
+            el.value = str;
+            el.setAttribute("readonly", "");
+            el.style = {
+                position: "absolute",
+                left: "-9999px"
+            };
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand("copy");
+            document.body.removeChild(el);
+            var tooltip = document.querySelector(".tooltip");
+            tooltip.style.visibility = "visible";
+            setTimeout(function() {
+                tooltip.style.visibility = "hidden";
+            }, 1000);
+        }
+
+        function copyToClipboardTailwindHsl() {
+            const str = document.getElementById("outputTailwindHsl").textContent;
             const el = document.createElement("textarea");
             el.value = str;
             el.setAttribute("readonly", "");
@@ -385,53 +516,46 @@
 
 
         function downloadJsonTailwind() {
-            // Get the formatted JSON data
             const data = document.getElementById('outputTailwind').textContent;
-            // Create a Blob object from the data
             const blob = new Blob([data], {
                 type: 'application/json'
             });
-            // Create a URL for the Blob object
             const url = URL.createObjectURL(blob);
-
-            // Create a temporary anchor element and set the href to the Blob URL
             const a = document.createElement('a');
             a.href = url;
-            // Set the download attribute to specify the filename
             a.download = 'data.json';
-            // Append the anchor element to the body
             document.body.appendChild(a);
-            // Programmatically click the anchor element to start the download
             a.click();
-            // Finally, remove the anchor element from the body
+            document.body.removeChild(a);
+        }
+
+        function downloadJsonTailwindHsl() {
+            const data = document.getElementById('outputTailwindHsl').textContent;
+            const blob = new Blob([data], {
+                type: 'application/json'
+            });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'data.json';
+            document.body.appendChild(a);
+            a.click();
             document.body.removeChild(a);
         }
 
         function downloadJson() {
-            // Get the formatted JSON data
             const data = document.getElementById('output').textContent;
-            // Create a Blob object from the data
             const blob = new Blob([data], {
                 type: 'application/json'
             });
-            // Create a URL for the Blob object
             const url = URL.createObjectURL(blob);
-
-            // Create a temporary anchor element and set the href to the Blob URL
             const a = document.createElement('a');
             a.href = url;
-            // Set the download attribute to specify the filename
             a.download = 'data.json';
-            // Append the anchor element to the body
             document.body.appendChild(a);
-            // Programmatically click the anchor element to start the download
             a.click();
-            // Finally, remove the anchor element from the body
             document.body.removeChild(a);
         }
-
-
-        // Sélectionnez l'onglet 1 par défaut
         window.onload = function() {
             changeTab('tab1');
         }
