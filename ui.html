@@ -218,7 +218,7 @@
             visibility: hidden;
             position: absolute;
             z-index: 1;
-            width: 100px;
+            width: 75px;
             color: white;
             font-size: 14px;
             background-color: var(--figma-color-bg-tertiary);
@@ -270,6 +270,10 @@
         <div class="tab hover-text" id="tab4" onclick="changeTab('tab4')">
             <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 576 512" fill="#3ddc84"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M420.55,301.93a24,24,0,1,1,24-24,24,24,0,0,1-24,24m-265.1,0a24,24,0,1,1,24-24,24,24,0,0,1-24,24m273.7-144.48,47.94-83a10,10,0,1,0-17.27-10h0l-48.54,84.07a301.25,301.25,0,0,0-246.56,0L116.18,64.45a10,10,0,1,0-17.27,10h0l47.94,83C64.53,202.22,8.24,285.55,0,384H576c-8.24-98.45-64.54-181.78-146.85-226.55"/></svg>
             <span class="tooltip-text" id="top">Jetpack Compose</span>
+        </div>
+        <div class="tab hover-text" id="tab5" onclick="changeTab('tab5')">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512" fill="#264de4"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M0 32l34.9 395.8L192 480l157.1-52.2L384 32H0zm313.1 80l-4.8 47.3L193 208.6l-.3.1h111.5l-12.8 146.6-98.2 28.7-98.8-29.2-6.4-73.9h48.9l3.2 38.3 52.6 13.3 54.7-15.4 3.7-61.6-166.3-.5v-.1l-.2.1-3.6-46.3L193.1 162l6.5-2.7H76.7L70.9 112h242.2z"/></svg>
+            <span class="tooltip-text" id="top">CSS</span>
         </div>
     </div>
 
@@ -386,7 +390,11 @@
                 const transformedJsonHsl = transformJsonHsl(formattedJson);
                 outputTailwindElementHsl.textContent = JSON.stringify(transformedJsonHsl, null, 2);
 
-                console.log(transformedJson);
+                //css variables
+                let transformeJsonCss = jsonToCssVariables(formattedJson);
+
+
+                console.log(transformeJsonCss);
             }
             if (event.data.pluginMessage.type === "collections") {
                 const selectElement = document.getElementById("collections");
@@ -476,6 +484,34 @@
             }
             return composeColors.join('\n');
         }
+
+        function jsonToCssVariables(json, prefix = "") {
+            let cssVariables = [];
+            for (const key in json) {
+                if (json.hasOwnProperty(key)) {
+                    const item = json[key];
+                    if (item.type === "COLOR") {
+                        for (const modeKey in item.Mode) {
+                            if (item.Mode.hasOwnProperty(modeKey)) {
+                                const mode = item.Mode[modeKey];
+                                if (mode.type !== "VARIABLE_ALIAS") {
+                                    const r = Math.round(mode.r * 255);
+                                    const g = Math.round(mode.g * 255);
+                                    const b = Math.round(mode.b * 255);
+                                    const a = mode.a;
+                                    const cssVariable = `--${prefix}${key}-${modeKey.replace(/ /g, "-")}: rgba(${r}, ${g}, ${b}, ${a});`;
+                                    cssVariables.push(cssVariable);
+                                }
+                            }
+                        }
+                    } else {
+                        cssVariables = cssVariables.concat(jsonToCssVariables(item, `${prefix}${key}-`));
+                    }
+                }
+            }
+            return cssVariables.join('\n');
+        }
+
 
 
         function reformatJson(json) {
@@ -823,6 +859,20 @@
             const a = document.createElement('a');
             a.href = url;
             a.download = 'data.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        function downloadCss() {
+            const data = document.getElementById('outputCss').textContent;
+            const blob = new Blob([data], {
+                type: 'application/json'
+            });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'data.css';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
