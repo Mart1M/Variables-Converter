@@ -16,7 +16,22 @@ async function getVariableNameById(id: string): Promise<string> {
   return variable ? variable.name : id;
 }
 
-async function getAllColorVariables() {
+async function sendCollectionNamesAndIds() {
+  // Récupérer les collections de variables
+  const collections = await figma.variables.getLocalVariableCollections();
+
+  // Extraire à la fois l'id et le nom de chaque collection
+  const collectionsData = collections.map(collection => ({ id: collection.id, name: collection.name }));
+
+  // Envoyer les noms des collections à l'interface utilisateur
+  figma.ui.postMessage({
+    type: 'collections',
+    data: collectionsData
+  });
+}
+sendCollectionNamesAndIds();
+
+async function getAllColorVariables(collectionId: string) {
   let colorVariableData: VariableData[] = [];
   const allVariables = await figma.variables.getLocalVariables("COLOR");
   const collections = await figma.variables.getLocalVariableCollections();
@@ -45,8 +60,15 @@ async function getAllColorVariables() {
     return variable ? variable.name : valueId;
   };
 
+  const selectedCollection = await figma.variables.getVariableCollectionById(collectionId);
+  if (!selectedCollection) {
+    console.error('Collection not found');
+    return [];
+  }
+  const selectedVariableIds = selectedCollection ? selectedCollection.variableIds : [];
+
   for (let variable of allVariables) {
-    if (variable) {
+    if (selectedVariableIds.includes(variable.id)) {
       let Mode: ModeValue = {};
       for (const modeKey in variable.valuesByMode) {
         const value = variable.valuesByMode[modeKey];
@@ -84,6 +106,10 @@ async function getAllColorVariables() {
   return colorVariableData;
 }
 
+
+
+
+
 function transformData(data: VariableData[]): object {
   const transformedData: any = {};
   for (let variable of data) {
@@ -114,10 +140,16 @@ function transformData(data: VariableData[]): object {
   return transformedData;
 }
 
-getAllColorVariables().then((colorVariableData) => {
-  const transformedData = transformData(colorVariableData);
-  figma.ui.postMessage({
-    type: "colorData",
-    data: transformedData,
-  });
-});
+figma.ui.onmessage = (message) => {
+  if (message.type === 'fetchColorVariables') {
+    const selectedCollectionId = message.collectionId; // Déclarer la variable selectedCollectionId ici
+
+    getAllColorVariables(selectedCollectionId).then((colorVariableData) => {
+      const transformedData = transformData(colorVariableData);
+      figma.ui.postMessage({
+        type: 'colorData',
+        data: transformedData,
+      });
+    });
+  }
+};
