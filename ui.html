@@ -27,7 +27,7 @@
             margin: 4px 0;
         }
         
-        #output {
+        .outputJson {
             height: auto;
         }
         
@@ -213,6 +213,33 @@
             color: var(--figma-color-text);
             font-size: 20px;
         }
+        
+        .tooltip-text {
+            visibility: hidden;
+            position: absolute;
+            z-index: 1;
+            width: 100px;
+            color: white;
+            font-size: 14px;
+            background-color: var(--figma-color-bg-tertiary);
+            border-radius: 10px;
+            padding: 10px 15px 10px 15px;
+        }
+        
+        .hover-text:hover .tooltip-text {
+            visibility: visible;
+        }
+        
+        #top {
+            top: -40px;
+            left: -20%;
+        }
+        
+        .hover-text {
+            position: relative;
+            display: inline-block;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -228,18 +255,22 @@
         <button id="fetch-button">Fetch</button>
     </div>
     <div class="tabs">
-        <div class="tab" id="tab1" onclick="changeTab('tab1')">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="fill: var(--figma-color-text);"><path d="M12.823 15.122c-.517 0-.816.491-.816 1.146 0 .661.311 1.126.82 1.126.517 0 .812-.49.812-1.146 0-.604-.291-1.126-.816-1.126z"></path><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM8.022 16.704c0 .961-.461 1.296-1.2 1.296-.176 0-.406-.029-.557-.08l.086-.615c.104.035.239.06.391.06.319 0 .52-.145.52-.67v-2.122h.761v2.131zm1.459 1.291c-.385 0-.766-.1-.955-.205l.155-.631c.204.105.521.211.846.211.35 0 .534-.146.534-.365 0-.211-.159-.331-.564-.476-.562-.195-.927-.506-.927-.996 0-.576.481-1.017 1.277-1.017.38 0 .659.08.861.171l-.172.615c-.135-.065-.375-.16-.705-.16s-.491.15-.491.325c0 .215.19.311.627.476.596.22.876.53.876 1.006.001.566-.436 1.046-1.362 1.046zm3.306.005c-1.001 0-1.586-.755-1.586-1.716 0-1.012.646-1.768 1.642-1.768 1.035 0 1.601.776 1.601 1.707C14.443 17.33 13.773 18 12.787 18zm4.947-.055h-.802l-.721-1.302a12.64 12.64 0 0 1-.585-1.19l-.016.005c.021.445.031.921.031 1.472v1.016h-.701v-3.373h.891l.701 1.236c.2.354.4.775.552 1.155h.014c-.05-.445-.065-.9-.065-1.406v-.985h.702v3.372zM14 9h-1V4l5 5h-4z"></path></svg>
-            <span>JSON</span>
+        <div class="tab hover-text" id="tab1" onclick="changeTab('tab1')">
+            <svg height="1.5em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18.5708 20C19.8328 20 20.8568 18.977 20.8568 17.714V13.143L21.9998 12L20.8568 10.857V6.286C20.8568 5.023 19.8338 4 18.5708 4M5.429 4C4.166 4 3.143 5.023 3.143 6.286V10.857L2 12L3.143 13.143V17.714C3.143 18.977 4.166 20 5.429 20" stroke="var(--figma-color-text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="tooltip-text" id="top">JSON</span>
         </div>
-        <div class="tab" id="tab2" onclick="changeTab('tab2')">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="fill: var(--figma-color-text);"><path d="M18.5 9.51a4.22 4.22 0 0 1-1.91-1.34A5.77 5.77 0 0 0 12 6a4.72 4.72 0 0 0-5 4 3.23 3.23 0 0 1 3.5-1.49 4.32 4.32 0 0 1 1.91 1.35A5.77 5.77 0 0 0 17 12a4.72 4.72 0 0 0 5-4 3.2 3.2 0 0 1-3.5 1.51zm-13 4.98a4.22 4.22 0 0 1 1.91 1.34A5.77 5.77 0 0 0 12 18a4.72 4.72 0 0 0 5-4 3.23 3.23 0 0 1-3.5 1.49 4.32 4.32 0 0 1-1.91-1.35A5.8 5.8 0 0 0 7 12a4.72 4.72 0 0 0-5 4 3.2 3.2 0 0 1 3.5-1.51z"></path></svg>
-            <span>Tailwind</span>
+        <div class="tab hover-text" id="tab2" onclick="changeTab('tab2')">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 24 24" fill="#06B6D4"><path d="M18.5 9.51a4.22 4.22 0 0 1-1.91-1.34A5.77 5.77 0 0 0 12 6a4.72 4.72 0 0 0-5 4 3.23 3.23 0 0 1 3.5-1.49 4.32 4.32 0 0 1 1.91 1.35A5.77 5.77 0 0 0 17 12a4.72 4.72 0 0 0 5-4 3.2 3.2 0 0 1-3.5 1.51zm-13 4.98a4.22 4.22 0 0 1 1.91 1.34A5.77 5.77 0 0 0 12 18a4.72 4.72 0 0 0 5-4 3.23 3.23 0 0 1-3.5 1.49 4.32 4.32 0 0 1-1.91-1.35A5.8 5.8 0 0 0 7 12a4.72 4.72 0 0 0-5 4 3.2 3.2 0 0 1 3.5-1.51z"></path></svg>
+            <span class="tooltip-text" id="top">TailwindCSS</span>
         </div>
-        <!-- <div class="tab" id="tab3" onclick="changeTab('tab3')">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="fill: var(--figma-color-text);"><path d="M18.5 9.51a4.22 4.22 0 0 1-1.91-1.34A5.77 5.77 0 0 0 12 6a4.72 4.72 0 0 0-5 4 3.23 3.23 0 0 1 3.5-1.49 4.32 4.32 0 0 1 1.91 1.35A5.77 5.77 0 0 0 17 12a4.72 4.72 0 0 0 5-4 3.2 3.2 0 0 1-3.5 1.51zm-13 4.98a4.22 4.22 0 0 1 1.91 1.34A5.77 5.77 0 0 0 12 18a4.72 4.72 0 0 0 5-4 3.23 3.23 0 0 1-3.5 1.49 4.32 4.32 0 0 1-1.91-1.35A5.8 5.8 0 0 0 7 12a4.72 4.72 0 0 0-5 4 3.2 3.2 0 0 1 3.5-1.51z"></path></svg>
-            <span>Tailwind HSL</span>
-        </div> -->
+        <div class="tab hover-text" id="tab3" onclick="changeTab('tab3')">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512" fill="#f05138"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M448 156.09c0-4.51-.08-9-.2-13.52a196.31 196.31 0 0 0-2.58-29.42 99.62 99.62 0 0 0-9.22-28A94.08 94.08 0 0 0 394.84 44a99.17 99.17 0 0 0-28-9.22 195 195 0 0 0-29.43-2.59c-4.51-.12-9-.17-13.52-.2H124.14c-4.51 0-9 .08-13.52.2-2.45.07-4.91.15-7.37.27a171.68 171.68 0 0 0-22.06 2.32 103.06 103.06 0 0 0-21.21 6.1q-3.46 1.45-6.81 3.12a94.66 94.66 0 0 0-18.39 12.32c-1.88 1.61-3.69 3.28-5.43 5A93.86 93.86 0 0 0 12 85.17a99.45 99.45 0 0 0-9.22 28 196.31 196.31 0 0 0-2.54 29.4c-.13 4.51-.18 9-.21 13.52v199.83c0 4.51.08 9 .21 13.51a196.08 196.08 0 0 0 2.58 29.42 99.3 99.3 0 0 0 9.22 28A94.31 94.31 0 0 0 53.17 468a99.47 99.47 0 0 0 28 9.21 195 195 0 0 0 29.43 2.59c4.5.12 9 .17 13.52.2H323.91c4.51 0 9-.08 13.52-.2a196.59 196.59 0 0 0 29.44-2.59 99.57 99.57 0 0 0 28-9.21A94.22 94.22 0 0 0 436 426.84a99.3 99.3 0 0 0 9.22-28 194.79 194.79 0 0 0 2.59-29.42c.12-4.5.17-9 .2-13.51V172.14c-.01-5.35-.01-10.7-.01-16.05zm-69.88 241c-20-38.93-57.23-29.27-76.31-19.47-1.72 1-3.48 2-5.25 3l-.42.25c-39.5 21-92.53 22.54-145.85-.38A234.64 234.64 0 0 1 45 290.12a230.63 230.63 0 0 0 39.17 23.37c56.36 26.4 113 24.49 153 0-57-43.85-104.6-101-141.09-147.22a197.09 197.09 0 0 1-18.78-25.9c43.7 40 112.7 90.22 137.48 104.12-52.57-55.49-98.89-123.94-96.72-121.74 82.79 83.42 159.18 130.59 159.18 130.59 2.88 1.58 5 2.85 6.73 4a127.44 127.44 0 0 0 4.16-12.47c13.22-48.33-1.66-103.58-35.31-149.2C329.61 141.75 375 229.34 356.4 303.42c-.44 1.73-.95 3.4-1.44 5.09 38.52 47.4 28.04 98.17 23.13 88.59z"/></svg>
+            <span class="tooltip-text" id="top">Swift</span>
+        </div>
+        <div class="tab hover-text" id="tab4" onclick="changeTab('tab4')">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 576 512" fill="#3ddc84"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M420.55,301.93a24,24,0,1,1,24-24,24,24,0,0,1-24,24m-265.1,0a24,24,0,1,1,24-24,24,24,0,0,1-24,24m273.7-144.48,47.94-83a10,10,0,1,0-17.27-10h0l-48.54,84.07a301.25,301.25,0,0,0-246.56,0L116.18,64.45a10,10,0,1,0-17.27,10h0l47.94,83C64.53,202.22,8.24,285.55,0,384H576c-8.24-98.45-64.54-181.78-146.85-226.55"/></svg>
+            <span class="tooltip-text" id="top">Jetpack Compose</span>
+        </div>
     </div>
 
 
@@ -266,10 +297,7 @@
                 <span class="tooltip">Copied!</span>
             </button>
         </div>
-
-
-        <code><pre id="output"></pre></code>
-
+        <pre class="outputJson"></pr><code id="output"></code></pre>
     </div>
 
     <div id="content2" class="tab-content">
@@ -285,7 +313,7 @@
                 <span class="tooltip">Copied!</span>
             </button>
         </div>
-        <pre id="outputTailwind"></pre>
+        <pre></pr><code id="outputTailwind"></code></pre>
         <div class="divider"></div>
         <h2>HSL format</h2>
         <div class="ctas">
@@ -299,22 +327,26 @@
                 <span class="tooltip">Copied!</span>
             </button>
         </div>
-        <pre id="outputTailwindHsl"></pre>
+        <pre></pr><code id="outputTailwindHsl"></code></pre>
     </div>
-    <!-- <div id="content3" class="tab-content">
-        <div class="ctas">
-            <button onclick="downloadJsonTailwindHsl()" id="downloadButton">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.5 12.5V13.5C17.5 14.9001 17.5 15.6002 17.2275 16.135C16.9878 16.6054 16.6054 16.9878 16.135 17.2275C15.6002 17.5 14.9001 17.5 13.5 17.5H6.5C5.09987 17.5 4.3998 17.5 3.86502 17.2275C3.39462 16.9878 3.01217 16.6054 2.77248 16.135C2.5 15.6002 2.5 14.9001 2.5 13.5V12.5M14.1667 8.33333L10 12.5M10 12.5L5.83333 8.33333M10 12.5V2.5" stroke="var(--figma-color-icon-onbrand)" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                Download
-            </button>
-            <button onclick="copyToClipboardTailwindHsl()" class="secondary">
+
+    <div id="content3" class="tab-content">
+        <button onclick="copyToClipboardSwift()" class="secondary">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_116_1255)"><path d="M6.66669 13.3334V15.6667C6.66669 16.6002 6.66669 17.0669 6.84834 17.4234C7.00813 17.737 7.2631 17.992 7.5767 18.1518C7.93322 18.3334 8.39993 18.3334 9.33335 18.3334H15.6667C16.6001 18.3334 17.0668 18.3334 17.4233 18.1518C17.7369 17.992 17.9919 17.737 18.1517 17.4234C18.3334 17.0669 18.3334 16.6002 18.3334 15.6667V9.33341C18.3334 8.39999 18.3334 7.93328 18.1517 7.57676C17.9919 7.26316 17.7369 7.00819 17.4233 6.8484C17.0668 6.66675 16.6001 6.66675 15.6667 6.66675H13.3334M4.33335 13.3334H10.6667C11.6001 13.3334 12.0668 13.3334 12.4233 13.1518C12.7369 12.992 12.9919 12.737 13.1517 12.4234C13.3334 12.0669 13.3334 11.6002 13.3334 10.6667V4.33341C13.3334 3.39999 13.3334 2.93328 13.1517 2.57676C12.9919 2.26316 12.7369 2.00819 12.4233 1.8484C12.0668 1.66675 11.6001 1.66675 10.6667 1.66675H4.33335C3.39993 1.66675 2.93322 1.66675 2.5767 1.8484C2.2631 2.00819 2.00813 2.26316 1.84834 2.57676C1.66669 2.93328 1.66669 3.39999 1.66669 4.33341V10.6667C1.66669 11.6002 1.66669 12.0669 1.84834 12.4234C2.00813 12.737 2.2631 12.992 2.5767 13.1518C2.93322 13.3334 3.39993 13.3334 4.33335 13.3334Z" stroke="var(--figma-color-icon)" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_116_1255"><rect width="20" height="20" fill="var(--figma-color-icon)"/></clipPath></defs></svg>
                 Copy
                 <span class="tooltip">Copied!</span>
             </button>
-        </div>
-        <pre id="outputTailwindHsl"></pre>
-    </div> -->
+        <pre id="outputSwift"></pre>
+    </div>
+
+    <div id="content4" class="tab-content">
+        <button onclick="copyToClipboardCompose()" class="secondary">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_116_1255)"><path d="M6.66669 13.3334V15.6667C6.66669 16.6002 6.66669 17.0669 6.84834 17.4234C7.00813 17.737 7.2631 17.992 7.5767 18.1518C7.93322 18.3334 8.39993 18.3334 9.33335 18.3334H15.6667C16.6001 18.3334 17.0668 18.3334 17.4233 18.1518C17.7369 17.992 17.9919 17.737 18.1517 17.4234C18.3334 17.0669 18.3334 16.6002 18.3334 15.6667V9.33341C18.3334 8.39999 18.3334 7.93328 18.1517 7.57676C17.9919 7.26316 17.7369 7.00819 17.4233 6.8484C17.0668 6.66675 16.6001 6.66675 15.6667 6.66675H13.3334M4.33335 13.3334H10.6667C11.6001 13.3334 12.0668 13.3334 12.4233 13.1518C12.7369 12.992 12.9919 12.737 13.1517 12.4234C13.3334 12.0669 13.3334 11.6002 13.3334 10.6667V4.33341C13.3334 3.39999 13.3334 2.93328 13.1517 2.57676C12.9919 2.26316 12.7369 2.00819 12.4233 1.8484C12.0668 1.66675 11.6001 1.66675 10.6667 1.66675H4.33335C3.39993 1.66675 2.93322 1.66675 2.5767 1.8484C2.2631 2.00819 2.00813 2.26316 1.84834 2.57676C1.66669 2.93328 1.66669 3.39999 1.66669 4.33341V10.6667C1.66669 11.6002 1.66669 12.0669 1.84834 12.4234C2.00813 12.737 2.2631 12.992 2.5767 13.1518C2.93322 13.3334 3.39993 13.3334 4.33335 13.3334Z" stroke="var(--figma-color-icon)" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_116_1255"><rect width="20" height="20" fill="var(--figma-color-icon)"/></clipPath></defs></svg>
+                Copy
+                <span class="tooltip">Copied!</span>
+            </button>
+        <pre id="outputCompose"></pre>
+    </div>
     <script>
         window.onmessage = (event) => {
             const {
@@ -324,16 +356,37 @@
                 const outputElement = document.getElementById("output");
                 const outputTailwindElement = document.getElementById("outputTailwind");
                 const outputTailwindElementHsl = document.getElementById("outputTailwindHsl");
+                const outputElementSwift = document.getElementById("outputSwift");
+                const outputElementCompose = document.getElementById("outputCompose");
 
                 const formattedJson = reformatJson(pluginMessage.data);
                 outputElement.textContent = JSON.stringify(formattedJson, null, 2);
 
-                // Transform the JSON to the new format and set it to the second <pre>
+                // swift
+                let transformedJsonSwift = jsonToSwift(formattedJson);
+                transformedJsonSwift = transformedJsonSwift.replace(/\n/g, '<br/>');
+                outputElementSwift.innerHTML = transformedJsonSwift;
+
+
+                //compose
+                let transformJsonCompose = jsonToCompose(formattedJson);
+                transformJsonCompose = transformJsonCompose.replace(/\n/g, '<br/>');
+                outputElementCompose.innerHTML = transformJsonCompose;
+
+
+
+
+
+                // Json hex
                 const transformedJson = transformJson(formattedJson);
                 outputTailwindElement.textContent = JSON.stringify(transformedJson, null, 2);
 
+
+                //Json hsl
                 const transformedJsonHsl = transformJsonHsl(formattedJson);
                 outputTailwindElementHsl.textContent = JSON.stringify(transformedJsonHsl, null, 2);
+
+                console.log(transformedJson);
             }
             if (event.data.pluginMessage.type === "collections") {
                 const selectElement = document.getElementById("collections");
@@ -346,6 +399,7 @@
                     selectElement.appendChild(option);
                 }
             }
+
         };
 
         document.getElementById('fetch-button').addEventListener('click', function() {
@@ -364,6 +418,65 @@
                 }
             }, '*');
         });
+
+
+
+
+        function jsonToSwift(json, prefix = "") {
+            let swiftColors = [];
+            for (const key in json) {
+                if (json.hasOwnProperty(key)) {
+                    const item = json[key];
+                    if (item.type === "COLOR") {
+                        for (const modeKey in item.Mode) {
+                            if (item.Mode.hasOwnProperty(modeKey)) {
+                                const mode = item.Mode[modeKey];
+                                if (mode.type !== "VARIABLE_ALIAS") {
+                                    const r = mode.r;
+                                    const g = mode.g;
+                                    const b = mode.b;
+                                    const a = mode.a;
+                                    const swiftColor = `let ${prefix}${key}_${modeKey.replace(/ /g, "_")} = Color(red: ${r}, green: ${g}, blue: ${b}, alpha: ${a})`;
+                                    swiftColors.push(swiftColor);
+                                }
+                            }
+                        }
+                    } else {
+                        swiftColors = swiftColors.concat(jsonToSwift(item, `${prefix}${key}_`));
+                    }
+                }
+            }
+            return swiftColors.join('\n');
+        }
+
+
+        function jsonToCompose(json, prefix = "") {
+            let composeColors = [];
+            for (const key in json) {
+                if (json.hasOwnProperty(key)) {
+                    const item = json[key];
+                    if (item.type === "COLOR") {
+                        for (const modeKey in item.Mode) {
+                            if (item.Mode.hasOwnProperty(modeKey)) {
+                                const mode = item.Mode[modeKey];
+                                if (mode.type !== "VARIABLE_ALIAS") {
+                                    const r = Math.round(mode.r * 255);
+                                    const g = Math.round(mode.g * 255);
+                                    const b = Math.round(mode.b * 255);
+                                    const a = Math.round(mode.a * 255);
+                                    const composeColor = `val ${prefix}${key}_${modeKey.replace(/ /g, "_")} = Color(0x${a.toString(16).padStart(2, '0')}${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')})`;
+                                    composeColors.push(composeColor);
+                                }
+                            }
+                        }
+                    } else {
+                        composeColors = composeColors.concat(jsonToCompose(item, `${prefix}${key}_`));
+                    }
+                }
+            }
+            return composeColors.join('\n');
+        }
+
 
         function reformatJson(json) {
             const result = {};
@@ -603,6 +716,46 @@
             }, 1000);
         }
 
+        function copyToClipboardSwift() {
+            const str = document.getElementById("outputSwift").textContent;
+            const el = document.createElement("textarea");
+            el.value = str;
+            el.setAttribute("readonly", "");
+            el.style = {
+                position: "absolute",
+                left: "-9999px"
+            };
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand("copy");
+            document.body.removeChild(el);
+            var tooltip = document.querySelector(".tooltip");
+            tooltip.style.visibility = "visible";
+            setTimeout(function() {
+                tooltip.style.visibility = "hidden";
+            }, 1000);
+        }
+
+        function copyToClipboardCompose() {
+            const str = document.getElementById("outputCompose").textContent;
+            const el = document.createElement("textarea");
+            el.value = str;
+            el.setAttribute("readonly", "");
+            el.style = {
+                position: "absolute",
+                left: "-9999px"
+            };
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand("copy");
+            document.body.removeChild(el);
+            var tooltip = document.querySelector(".tooltip");
+            tooltip.style.visibility = "visible";
+            setTimeout(function() {
+                tooltip.style.visibility = "hidden";
+            }, 1000);
+        }
+
         function showTab(id) {
             const tabs = document.querySelectorAll('.tab');
             for (let i = 0; i < tabs.length; i++) {
@@ -630,6 +783,20 @@
                     content.classList.remove('active');
                 }
             });
+        }
+
+        function downloadJson() {
+            const data = document.getElementById('output').textContent;
+            const blob = new Blob([data], {
+                type: 'application/json'
+            });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'data.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
 
 
@@ -661,19 +828,10 @@
             document.body.removeChild(a);
         }
 
-        function downloadJson() {
-            const data = document.getElementById('output').textContent;
-            const blob = new Blob([data], {
-                type: 'application/json'
-            });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'data.json';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        }
+
+
+
+
         window.onload = function() {
             changeTab('tab1');
         }
