@@ -50,8 +50,8 @@
         .tooltip {
             visibility: hidden;
             width: 120px;
-            background-color: #555;
-            color: #fff;
+            background-color: var(--figma-color-bg-tertiary);
+            color: var(--figma-color-text);
             text-align: center;
             border-radius: 6px;
             padding: 5px;
@@ -219,7 +219,7 @@
             position: absolute;
             z-index: 1;
             width: 75px;
-            color: white;
+            color: var(--figma-color-text);
             font-size: 14px;
             background-color: var(--figma-color-bg-tertiary);
             border-radius: 10px;
@@ -274,6 +274,10 @@
         <div class="tab hover-text" id="tab5" onclick="changeTab('tab5')">
             <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512" fill="#264de4"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M0 32l34.9 395.8L192 480l157.1-52.2L384 32H0zm313.1 80l-4.8 47.3L193 208.6l-.3.1h111.5l-12.8 146.6-98.2 28.7-98.8-29.2-6.4-73.9h48.9l3.2 38.3 52.6 13.3 54.7-15.4 3.7-61.6-166.3-.5v-.1l-.2.1-3.6-46.3L193.1 162l6.5-2.7H76.7L70.9 112h242.2z"/></svg>
             <span class="tooltip-text" id="top">CSS</span>
+        </div>
+        <div class="tab hover-text" id="tab6" onclick="changeTab('tab6')">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512" fill="#dd1b16"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M185.7 268.1h76.2l-38.1-91.6-38.1 91.6zM223.8 32L16 106.4l31.8 275.7 176 97.9 176-97.9 31.8-275.7zM354 373.8h-48.6l-26.2-65.4H168.6l-26.2 65.4H93.7L223.8 81.5z"/></svg>
+            <span class="tooltip-text" id="top">Angular</span>
         </div>
     </div>
 
@@ -351,6 +355,28 @@
             </button>
         <pre id="outputCompose"></pre>
     </div>
+    <div id="content5" class="tab-content">
+        <div class="ctas">
+            <button onclick="downloadCss()" id="downloadButton">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.5 12.5V13.5C17.5 14.9001 17.5 15.6002 17.2275 16.135C16.9878 16.6054 16.6054 16.9878 16.135 17.2275C15.6002 17.5 14.9001 17.5 13.5 17.5H6.5C5.09987 17.5 4.3998 17.5 3.86502 17.2275C3.39462 16.9878 3.01217 16.6054 2.77248 16.135C2.5 15.6002 2.5 14.9001 2.5 13.5V12.5M14.1667 8.33333L10 12.5M10 12.5L5.83333 8.33333M10 12.5V2.5" stroke="var(--figma-color-icon-onbrand)" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Download
+            </button>
+            <button onclick="copyToClipboardTailwindHsl()" class="secondary">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_116_1255)"><path d="M6.66669 13.3334V15.6667C6.66669 16.6002 6.66669 17.0669 6.84834 17.4234C7.00813 17.737 7.2631 17.992 7.5767 18.1518C7.93322 18.3334 8.39993 18.3334 9.33335 18.3334H15.6667C16.6001 18.3334 17.0668 18.3334 17.4233 18.1518C17.7369 17.992 17.9919 17.737 18.1517 17.4234C18.3334 17.0669 18.3334 16.6002 18.3334 15.6667V9.33341C18.3334 8.39999 18.3334 7.93328 18.1517 7.57676C17.9919 7.26316 17.7369 7.00819 17.4233 6.8484C17.0668 6.66675 16.6001 6.66675 15.6667 6.66675H13.3334M4.33335 13.3334H10.6667C11.6001 13.3334 12.0668 13.3334 12.4233 13.1518C12.7369 12.992 12.9919 12.737 13.1517 12.4234C13.3334 12.0669 13.3334 11.6002 13.3334 10.6667V4.33341C13.3334 3.39999 13.3334 2.93328 13.1517 2.57676C12.9919 2.26316 12.7369 2.00819 12.4233 1.8484C12.0668 1.66675 11.6001 1.66675 10.6667 1.66675H4.33335C3.39993 1.66675 2.93322 1.66675 2.5767 1.8484C2.2631 2.00819 2.00813 2.26316 1.84834 2.57676C1.66669 2.93328 1.66669 3.39999 1.66669 4.33341V10.6667C1.66669 11.6002 1.66669 12.0669 1.84834 12.4234C2.00813 12.737 2.2631 12.992 2.5767 13.1518C2.93322 13.3334 3.39993 13.3334 4.33335 13.3334Z" stroke="var(--figma-color-icon)" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_116_1255"><rect width="20" height="20" fill="var(--figma-color-icon)"/></clipPath></defs></svg>
+                Copy
+                <span class="tooltip">Copied!</span>
+            </button>
+        </div>
+        <pre id="outputCss"></pre>
+    </div>
+    <div id="content6" class="tab-content">
+            <button onclick="copyToClipboardTailwindHsl()" class="secondary">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_116_1255)"><path d="M6.66669 13.3334V15.6667C6.66669 16.6002 6.66669 17.0669 6.84834 17.4234C7.00813 17.737 7.2631 17.992 7.5767 18.1518C7.93322 18.3334 8.39993 18.3334 9.33335 18.3334H15.6667C16.6001 18.3334 17.0668 18.3334 17.4233 18.1518C17.7369 17.992 17.9919 17.737 18.1517 17.4234C18.3334 17.0669 18.3334 16.6002 18.3334 15.6667V9.33341C18.3334 8.39999 18.3334 7.93328 18.1517 7.57676C17.9919 7.26316 17.7369 7.00819 17.4233 6.8484C17.0668 6.66675 16.6001 6.66675 15.6667 6.66675H13.3334M4.33335 13.3334H10.6667C11.6001 13.3334 12.0668 13.3334 12.4233 13.1518C12.7369 12.992 12.9919 12.737 13.1517 12.4234C13.3334 12.0669 13.3334 11.6002 13.3334 10.6667V4.33341C13.3334 3.39999 13.3334 2.93328 13.1517 2.57676C12.9919 2.26316 12.7369 2.00819 12.4233 1.8484C12.0668 1.66675 11.6001 1.66675 10.6667 1.66675H4.33335C3.39993 1.66675 2.93322 1.66675 2.5767 1.8484C2.2631 2.00819 2.00813 2.26316 1.84834 2.57676C1.66669 2.93328 1.66669 3.39999 1.66669 4.33341V10.6667C1.66669 11.6002 1.66669 12.0669 1.84834 12.4234C2.00813 12.737 2.2631 12.992 2.5767 13.1518C2.93322 13.3334 3.39993 13.3334 4.33335 13.3334Z" stroke="var(--figma-color-icon)" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_116_1255"><rect width="20" height="20" fill="var(--figma-color-icon)"/></clipPath></defs></svg>
+                Copy
+                <span class="tooltip">Copied!</span>
+            </button>
+        <pre id="outputAngular"></pre>
+    </div>
     <script>
         window.onmessage = (event) => {
             const {
@@ -362,6 +388,7 @@
                 const outputTailwindElementHsl = document.getElementById("outputTailwindHsl");
                 const outputElementSwift = document.getElementById("outputSwift");
                 const outputElementCompose = document.getElementById("outputCompose");
+                const outputElementCss = document.getElementById("outputCss")
 
                 const formattedJson = reformatJson(pluginMessage.data);
                 outputElement.textContent = JSON.stringify(formattedJson, null, 2);
@@ -376,9 +403,7 @@
                 let transformJsonCompose = jsonToCompose(formattedJson);
                 transformJsonCompose = transformJsonCompose.replace(/\n/g, '<br/>');
                 outputElementCompose.innerHTML = transformJsonCompose;
-
-
-
+                console.log(formattedJson);
 
 
                 // Json hex
@@ -391,10 +416,10 @@
                 outputTailwindElementHsl.textContent = JSON.stringify(transformedJsonHsl, null, 2);
 
                 //css variables
-                let transformeJsonCss = jsonToCssVariables(formattedJson);
+                let transformJsonCss = jsonToCssVariables(formattedJson);
+                transformJsonCss = transformJsonCss.replace(/\n/g, '<br/>');
+                outputElementCss.innerHTML = transformJsonCss;
 
-
-                console.log(transformeJsonCss);
             }
             if (event.data.pluginMessage.type === "collections") {
                 const selectElement = document.getElementById("collections");
@@ -427,90 +452,108 @@
             }, '*');
         });
 
-
-
-
         function jsonToSwift(json, prefix = "") {
-            let swiftColors = [];
-            for (const key in json) {
-                if (json.hasOwnProperty(key)) {
-                    const item = json[key];
-                    if (item.type === "COLOR") {
-                        for (const modeKey in item.Mode) {
-                            if (item.Mode.hasOwnProperty(modeKey)) {
-                                const mode = item.Mode[modeKey];
-                                if (mode.type !== "VARIABLE_ALIAS") {
-                                    const r = mode.r;
-                                    const g = mode.g;
-                                    const b = mode.b;
-                                    const a = mode.a;
-                                    const swiftColor = `let ${prefix}${key}_${modeKey.replace(/ /g, "_")} = Color(red: ${r}, green: ${g}, blue: ${b}, alpha: ${a})`;
-                                    swiftColors.push(swiftColor);
-                                }
+    let swiftColors = [];
+    for (const key in json) {
+        if (json.hasOwnProperty(key)) {
+            const item = json[key];
+            if (item.type === "COLOR") {
+                const modes = Object.keys(item.Mode);
+                for (const modeKey in item.Mode) {
+                    if (item.Mode.hasOwnProperty(modeKey)) {
+                        const mode = item.Mode[modeKey];
+                        if (mode.type !== "VARIABLE_ALIAS") {
+                            const r = mode.r;
+                            const g = mode.g;
+                            const b = mode.b;
+                            const a = mode.a;
+                            let swiftColor;
+                            if (modes.length > 1) {
+                                swiftColor = `let ${prefix}${key}_${modeKey.replace(/ /g, "_")} = Color(red: ${r}, green: ${g}, blue: ${b}, alpha: ${a})`;
+                            } else {
+                                swiftColor = `let ${prefix}${key} = Color(red: ${r}, green: ${g}, blue: ${b}, alpha: ${a})`;
                             }
+                            swiftColors.push(swiftColor);
                         }
-                    } else {
-                        swiftColors = swiftColors.concat(jsonToSwift(item, `${prefix}${key}_`));
                     }
                 }
+            } else {
+                swiftColors = swiftColors.concat(jsonToSwift(item, `${prefix}${key}_`));
             }
-            return swiftColors.join('\n');
         }
+    }
+    return swiftColors.join('\n');
+}
 
 
-        function jsonToCompose(json, prefix = "") {
-            let composeColors = [];
-            for (const key in json) {
-                if (json.hasOwnProperty(key)) {
-                    const item = json[key];
-                    if (item.type === "COLOR") {
-                        for (const modeKey in item.Mode) {
-                            if (item.Mode.hasOwnProperty(modeKey)) {
-                                const mode = item.Mode[modeKey];
-                                if (mode.type !== "VARIABLE_ALIAS") {
-                                    const r = Math.round(mode.r * 255);
-                                    const g = Math.round(mode.g * 255);
-                                    const b = Math.round(mode.b * 255);
-                                    const a = Math.round(mode.a * 255);
-                                    const composeColor = `val ${prefix}${key}_${modeKey.replace(/ /g, "_")} = Color(0x${a.toString(16).padStart(2, '0')}${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')})`;
-                                    composeColors.push(composeColor);
-                                }
+
+function jsonToCompose(json, prefix = "") {
+    let composeColors = [];
+    for (const key in json) {
+        if (json.hasOwnProperty(key)) {
+            const item = json[key];
+            if (item.type === "COLOR") {
+                const modes = Object.keys(item.Mode);
+                for (const modeKey in item.Mode) {
+                    if (item.Mode.hasOwnProperty(modeKey)) {
+                        const mode = item.Mode[modeKey];
+                        if (mode.type !== "VARIABLE_ALIAS") {
+                            const r = Math.round(mode.r * 255);
+                            const g = Math.round(mode.g * 255);
+                            const b = Math.round(mode.b * 255);
+                            const a = Math.round(mode.a * 255);
+                            let composeColor;
+                            if (modes.length > 1) {
+                                composeColor = `val ${prefix}${key}_${modeKey.replace(/ /g, "_")} = Color(0x${a.toString(16).padStart(2, '0')}${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')})`;
+                            } else {
+                                composeColor = `val ${prefix}${key} = Color(0x${a.toString(16).padStart(2, '0')}${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')})`;
                             }
+                            composeColors.push(composeColor);
                         }
-                    } else {
-                        composeColors = composeColors.concat(jsonToCompose(item, `${prefix}${key}_`));
                     }
                 }
+            } else {
+                composeColors = composeColors.concat(jsonToCompose(item, `${prefix}${key}_`));
             }
-            return composeColors.join('\n');
         }
+    }
+    return composeColors.join('\n');
+}
+
 
         function jsonToCssVariables(json, prefix = "") {
-            let cssVariables = [];
-            for (const key in json) {
-                if (json.hasOwnProperty(key)) {
-                    const item = json[key];
-                    if (item.type === "COLOR") {
-                        for (const modeKey in item.Mode) {
-                            if (item.Mode.hasOwnProperty(modeKey)) {
-                                const mode = item.Mode[modeKey];
-                                if (mode.type !== "VARIABLE_ALIAS") {
-                                    const r = Math.round(mode.r * 255);
-                                    const g = Math.round(mode.g * 255);
-                                    const b = Math.round(mode.b * 255);
-                                    const a = mode.a;
-                                    const cssVariable = `--${prefix}${key}-${modeKey.replace(/ /g, "-")}: rgba(${r}, ${g}, ${b}, ${a});`;
-                                    cssVariables.push(cssVariable);
-                                }
+    let cssVariables = [];
+    for (const key in json) {
+        if (json.hasOwnProperty(key)) {
+            const item = json[key];
+            if (item.type === "COLOR") {
+                const modes = Object.keys(item.Mode);
+                for (const modeKey in item.Mode) {
+                    if (item.Mode.hasOwnProperty(modeKey)) {
+                        const mode = item.Mode[modeKey];
+                        if (mode.type !== "VARIABLE_ALIAS") {
+                            const r = Math.round(mode.r * 255);
+                            const g = Math.round(mode.g * 255);
+                            const b = Math.round(mode.b * 255);
+                            const a = mode.a;
+                            let cssVariable;
+                            if (modes.length > 1) {
+                                cssVariable = `--${prefix}${key}-${modeKey.replace(/ /g, "-")}: rgba(${r}, ${g}, ${b}, ${a});`;
+                            } else {
+                                cssVariable = `--${prefix}${key}: rgba(${r}, ${g}, ${b}, ${a});`;
                             }
+                            cssVariables.push(cssVariable);
                         }
-                    } else {
-                        cssVariables = cssVariables.concat(jsonToCssVariables(item, `${prefix}${key}-`));
                     }
                 }
+            } else {
+                cssVariables = cssVariables.concat(jsonToCssVariables(item, `${prefix}${key}-`));
             }
-            return cssVariables.join('\n');
         }
+    }
+    return cssVariables.join('\n');
+}
+
 
 
 
@@ -734,6 +777,26 @@
 
         function copyToClipboardTailwindHsl() {
             const str = document.getElementById("outputTailwindHsl").textContent;
+            const el = document.createElement("textarea");
+            el.value = str;
+            el.setAttribute("readonly", "");
+            el.style = {
+                position: "absolute",
+                left: "-9999px"
+            };
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand("copy");
+            document.body.removeChild(el);
+            var tooltip = document.querySelector(".tooltip");
+            tooltip.style.visibility = "visible";
+            setTimeout(function() {
+                tooltip.style.visibility = "hidden";
+            }, 1000);
+        }
+
+        function copyToClipboardCss() {
+            const str = document.getElementById("outputCss").textContent;
             const el = document.createElement("textarea");
             el.value = str;
             el.setAttribute("readonly", "");
