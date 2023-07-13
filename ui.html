@@ -370,7 +370,7 @@
         <pre id="outputCss"></pre>
     </div>
     <div id="content6" class="tab-content">
-            <button onclick="copyToClipboardTailwindHsl()" class="secondary">
+            <button onclick="copyToClipboardAngular()" class="secondary">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_116_1255)"><path d="M6.66669 13.3334V15.6667C6.66669 16.6002 6.66669 17.0669 6.84834 17.4234C7.00813 17.737 7.2631 17.992 7.5767 18.1518C7.93322 18.3334 8.39993 18.3334 9.33335 18.3334H15.6667C16.6001 18.3334 17.0668 18.3334 17.4233 18.1518C17.7369 17.992 17.9919 17.737 18.1517 17.4234C18.3334 17.0669 18.3334 16.6002 18.3334 15.6667V9.33341C18.3334 8.39999 18.3334 7.93328 18.1517 7.57676C17.9919 7.26316 17.7369 7.00819 17.4233 6.8484C17.0668 6.66675 16.6001 6.66675 15.6667 6.66675H13.3334M4.33335 13.3334H10.6667C11.6001 13.3334 12.0668 13.3334 12.4233 13.1518C12.7369 12.992 12.9919 12.737 13.1517 12.4234C13.3334 12.0669 13.3334 11.6002 13.3334 10.6667V4.33341C13.3334 3.39999 13.3334 2.93328 13.1517 2.57676C12.9919 2.26316 12.7369 2.00819 12.4233 1.8484C12.0668 1.66675 11.6001 1.66675 10.6667 1.66675H4.33335C3.39993 1.66675 2.93322 1.66675 2.5767 1.8484C2.2631 2.00819 2.00813 2.26316 1.84834 2.57676C1.66669 2.93328 1.66669 3.39999 1.66669 4.33341V10.6667C1.66669 11.6002 1.66669 12.0669 1.84834 12.4234C2.00813 12.737 2.2631 12.992 2.5767 13.1518C2.93322 13.3334 3.39993 13.3334 4.33335 13.3334Z" stroke="var(--figma-color-icon)" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_116_1255"><rect width="20" height="20" fill="var(--figma-color-icon)"/></clipPath></defs></svg>
                 Copy
                 <span class="tooltip">Copied!</span>
@@ -388,7 +388,8 @@
                 const outputTailwindElementHsl = document.getElementById("outputTailwindHsl");
                 const outputElementSwift = document.getElementById("outputSwift");
                 const outputElementCompose = document.getElementById("outputCompose");
-                const outputElementCss = document.getElementById("outputCss")
+                const outputElementCss = document.getElementById("outputCss");
+                const outputElementAngular = document.getElementById("outputAngular");
 
                 const formattedJson = reformatJson(pluginMessage.data);
                 outputElement.textContent = JSON.stringify(formattedJson, null, 2);
@@ -420,6 +421,11 @@
                 transformJsonCss = transformJsonCss.replace(/\n/g, '<br/>');
                 outputElementCss.innerHTML = transformJsonCss;
 
+                //angular
+                let transformJsonAngular = jsonToAngular(formattedJson, "colors");
+                //transformJsonAngular = transformJsonAngular.replace(/\n/g, '<br/>');
+                outputElementAngular.innerHTML = transformJsonAngular;
+
             }
             if (event.data.pluginMessage.type === "collections") {
                 const selectElement = document.getElementById("collections");
@@ -439,15 +445,18 @@
             // Obtenez l'élément select et sa valeur
             const selectElement = document.getElementById('collections');
             const selectedCollectionId = selectElement.value;
+            const selectedCollectionName = selectElement.options[selectElement.selectedIndex].text;
 
             // Affichez l'id de la collection sélectionnée
             console.log(`Selected collection id: ${selectedCollectionId}`);
+            console.log(`Selected collection name: ${selectedCollectionName}`);
 
             // Envoyez un message à l'extension avec l'ID de la collection sélectionnée
             parent.postMessage({
                 pluginMessage: {
                     type: 'fetchColorVariables',
-                    collectionId: selectedCollectionId
+                    collectionId: selectedCollectionId,
+                    collectionName: selectedCollectionName,
                 }
             }, '*');
         });
@@ -553,6 +562,51 @@ function jsonToCompose(json, prefix = "") {
     }
     return cssVariables.join('\n');
 }
+
+function jsonToAngular(json, collectionName, prefix = "") {
+    let angularColors = [];
+    for (const key in json) {
+        if (json.hasOwnProperty(key)) {
+            const item = json[key];
+            if (item.type === "COLOR") {
+                const modes = Object.keys(item.Mode);
+                for (const modeKey in item.Mode) {
+                    if (item.Mode.hasOwnProperty(modeKey)) {
+                        const mode = item.Mode[modeKey];
+                        if (mode.type !== "VARIABLE_ALIAS") {
+                            const r = Math.round(mode.r * 255);
+                            const g = Math.round(mode.g * 255);
+                            const b = Math.round(mode.b * 255);
+                            const a = mode.a;
+                            let angularColor;
+                            if (modes.length > 1) {
+                                angularColor = `${prefix}${key}_${modeKey.replace(/ /g, "_")}: 'rgba(${r}, ${g}, ${b}, ${a})',`;
+                            } else {
+                                angularColor = `${prefix}${key}: 'rgba(${r}, ${g}, ${b}, ${a})',`;
+                            }
+                            angularColors.push(angularColor);
+                        }
+                    }
+                }
+            } else {
+                const nestedColors = jsonToAngular(item, collectionName, `${prefix}${key}_`);
+                angularColors.push(nestedColors);
+            }
+        }
+    }
+
+    if (prefix === "") {
+        const angularColorsCode = `export const ${collectionName} = {\n${angularColors.join('\n')}};`;
+        return angularColorsCode;
+    } else {
+        return angularColors.join('\n');
+    }
+}
+
+
+
+
+
 
 
 
@@ -797,6 +851,26 @@ function jsonToCompose(json, prefix = "") {
 
         function copyToClipboardCss() {
             const str = document.getElementById("outputCss").textContent;
+            const el = document.createElement("textarea");
+            el.value = str;
+            el.setAttribute("readonly", "");
+            el.style = {
+                position: "absolute",
+                left: "-9999px"
+            };
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand("copy");
+            document.body.removeChild(el);
+            var tooltip = document.querySelector(".tooltip");
+            tooltip.style.visibility = "visible";
+            setTimeout(function() {
+                tooltip.style.visibility = "hidden";
+            }, 1000);
+        }
+
+        function copyToClipboardAngular() {
+            const str = document.getElementById("outputAngular").textContent;
             const el = document.createElement("textarea");
             el.value = str;
             el.setAttribute("readonly", "");
