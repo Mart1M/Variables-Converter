@@ -370,7 +370,7 @@
         <pre id="outputCss"></pre>
     </div>
     <div id="content6" class="tab-content">
-            <button onclick="copyToClipboardAngular()" class="secondary">
+        <button onclick="copyToClipboardAngular()" class="secondary">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_116_1255)"><path d="M6.66669 13.3334V15.6667C6.66669 16.6002 6.66669 17.0669 6.84834 17.4234C7.00813 17.737 7.2631 17.992 7.5767 18.1518C7.93322 18.3334 8.39993 18.3334 9.33335 18.3334H15.6667C16.6001 18.3334 17.0668 18.3334 17.4233 18.1518C17.7369 17.992 17.9919 17.737 18.1517 17.4234C18.3334 17.0669 18.3334 16.6002 18.3334 15.6667V9.33341C18.3334 8.39999 18.3334 7.93328 18.1517 7.57676C17.9919 7.26316 17.7369 7.00819 17.4233 6.8484C17.0668 6.66675 16.6001 6.66675 15.6667 6.66675H13.3334M4.33335 13.3334H10.6667C11.6001 13.3334 12.0668 13.3334 12.4233 13.1518C12.7369 12.992 12.9919 12.737 13.1517 12.4234C13.3334 12.0669 13.3334 11.6002 13.3334 10.6667V4.33341C13.3334 3.39999 13.3334 2.93328 13.1517 2.57676C12.9919 2.26316 12.7369 2.00819 12.4233 1.8484C12.0668 1.66675 11.6001 1.66675 10.6667 1.66675H4.33335C3.39993 1.66675 2.93322 1.66675 2.5767 1.8484C2.2631 2.00819 2.00813 2.26316 1.84834 2.57676C1.66669 2.93328 1.66669 3.39999 1.66669 4.33341V10.6667C1.66669 11.6002 1.66669 12.0669 1.84834 12.4234C2.00813 12.737 2.2631 12.992 2.5767 13.1518C2.93322 13.3334 3.39993 13.3334 4.33335 13.3334Z" stroke="var(--figma-color-icon)" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_116_1255"><rect width="20" height="20" fill="var(--figma-color-icon)"/></clipPath></defs></svg>
                 Copy
                 <span class="tooltip">Copied!</span>
@@ -462,146 +462,146 @@
         });
 
         function jsonToSwift(json, prefix = "") {
-    let swiftColors = [];
-    for (const key in json) {
-        if (json.hasOwnProperty(key)) {
-            const item = json[key];
-            if (item.type === "COLOR") {
-                const modes = Object.keys(item.Mode);
-                for (const modeKey in item.Mode) {
-                    if (item.Mode.hasOwnProperty(modeKey)) {
-                        const mode = item.Mode[modeKey];
-                        if (mode.type !== "VARIABLE_ALIAS") {
-                            const r = mode.r;
-                            const g = mode.g;
-                            const b = mode.b;
-                            const a = mode.a;
-                            let swiftColor;
-                            if (modes.length > 1) {
-                                swiftColor = `let ${prefix}${key}_${modeKey.replace(/ /g, "_")} = Color(red: ${r}, green: ${g}, blue: ${b}, alpha: ${a})`;
-                            } else {
-                                swiftColor = `let ${prefix}${key} = Color(red: ${r}, green: ${g}, blue: ${b}, alpha: ${a})`;
+            let swiftColors = [];
+            for (const key in json) {
+                if (json.hasOwnProperty(key)) {
+                    const item = json[key];
+                    if (item.type === "COLOR") {
+                        const modes = Object.keys(item.Mode);
+                        for (const modeKey in item.Mode) {
+                            if (item.Mode.hasOwnProperty(modeKey)) {
+                                const mode = item.Mode[modeKey];
+                                if (mode.type !== "VARIABLE_ALIAS") {
+                                    const r = mode.r;
+                                    const g = mode.g;
+                                    const b = mode.b;
+                                    const a = mode.a;
+                                    let swiftColor;
+                                    if (modes.length > 1) {
+                                        swiftColor = `let ${prefix}${key}_${modeKey.replace(/ /g, "_")} = Color(red: ${r}, green: ${g}, blue: ${b}, alpha: ${a})`;
+                                    } else {
+                                        swiftColor = `let ${prefix}${key} = Color(red: ${r}, green: ${g}, blue: ${b}, alpha: ${a})`;
+                                    }
+                                    swiftColors.push(swiftColor);
+                                }
                             }
-                            swiftColors.push(swiftColor);
                         }
+                    } else {
+                        swiftColors = swiftColors.concat(jsonToSwift(item, `${prefix}${key}_`));
                     }
                 }
-            } else {
-                swiftColors = swiftColors.concat(jsonToSwift(item, `${prefix}${key}_`));
             }
+            return swiftColors.join('\n');
         }
-    }
-    return swiftColors.join('\n');
-}
 
 
 
-function jsonToCompose(json, prefix = "") {
-    let composeColors = [];
-    for (const key in json) {
-        if (json.hasOwnProperty(key)) {
-            const item = json[key];
-            if (item.type === "COLOR") {
-                const modes = Object.keys(item.Mode);
-                for (const modeKey in item.Mode) {
-                    if (item.Mode.hasOwnProperty(modeKey)) {
-                        const mode = item.Mode[modeKey];
-                        if (mode.type !== "VARIABLE_ALIAS") {
-                            const r = Math.round(mode.r * 255);
-                            const g = Math.round(mode.g * 255);
-                            const b = Math.round(mode.b * 255);
-                            const a = Math.round(mode.a * 255);
-                            let composeColor;
-                            if (modes.length > 1) {
-                                composeColor = `val ${prefix}${key}_${modeKey.replace(/ /g, "_")} = Color(0x${a.toString(16).padStart(2, '0')}${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')})`;
-                            } else {
-                                composeColor = `val ${prefix}${key} = Color(0x${a.toString(16).padStart(2, '0')}${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')})`;
+        function jsonToCompose(json, prefix = "") {
+            let composeColors = [];
+            for (const key in json) {
+                if (json.hasOwnProperty(key)) {
+                    const item = json[key];
+                    if (item.type === "COLOR") {
+                        const modes = Object.keys(item.Mode);
+                        for (const modeKey in item.Mode) {
+                            if (item.Mode.hasOwnProperty(modeKey)) {
+                                const mode = item.Mode[modeKey];
+                                if (mode.type !== "VARIABLE_ALIAS") {
+                                    const r = Math.round(mode.r * 255);
+                                    const g = Math.round(mode.g * 255);
+                                    const b = Math.round(mode.b * 255);
+                                    const a = Math.round(mode.a * 255);
+                                    let composeColor;
+                                    if (modes.length > 1) {
+                                        composeColor = `val ${prefix}${key}_${modeKey.replace(/ /g, "_")} = Color(0x${a.toString(16).padStart(2, '0')}${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')})`;
+                                    } else {
+                                        composeColor = `val ${prefix}${key} = Color(0x${a.toString(16).padStart(2, '0')}${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')})`;
+                                    }
+                                    composeColors.push(composeColor);
+                                }
                             }
-                            composeColors.push(composeColor);
                         }
+                    } else {
+                        composeColors = composeColors.concat(jsonToCompose(item, `${prefix}${key}_`));
                     }
                 }
-            } else {
-                composeColors = composeColors.concat(jsonToCompose(item, `${prefix}${key}_`));
             }
+            return composeColors.join('\n');
         }
-    }
-    return composeColors.join('\n');
-}
 
 
         function jsonToCssVariables(json, prefix = "") {
-    let cssVariables = [];
-    for (const key in json) {
-        if (json.hasOwnProperty(key)) {
-            const item = json[key];
-            if (item.type === "COLOR") {
-                const modes = Object.keys(item.Mode);
-                for (const modeKey in item.Mode) {
-                    if (item.Mode.hasOwnProperty(modeKey)) {
-                        const mode = item.Mode[modeKey];
-                        if (mode.type !== "VARIABLE_ALIAS") {
-                            const r = Math.round(mode.r * 255);
-                            const g = Math.round(mode.g * 255);
-                            const b = Math.round(mode.b * 255);
-                            const a = mode.a;
-                            let cssVariable;
-                            if (modes.length > 1) {
-                                cssVariable = `--${prefix}${key}-${modeKey.replace(/ /g, "-")}: rgba(${r}, ${g}, ${b}, ${a});`;
-                            } else {
-                                cssVariable = `--${prefix}${key}: rgba(${r}, ${g}, ${b}, ${a});`;
+            let cssVariables = [];
+            for (const key in json) {
+                if (json.hasOwnProperty(key)) {
+                    const item = json[key];
+                    if (item.type === "COLOR") {
+                        const modes = Object.keys(item.Mode);
+                        for (const modeKey in item.Mode) {
+                            if (item.Mode.hasOwnProperty(modeKey)) {
+                                const mode = item.Mode[modeKey];
+                                if (mode.type !== "VARIABLE_ALIAS") {
+                                    const r = Math.round(mode.r * 255);
+                                    const g = Math.round(mode.g * 255);
+                                    const b = Math.round(mode.b * 255);
+                                    const a = mode.a;
+                                    let cssVariable;
+                                    if (modes.length > 1) {
+                                        cssVariable = `--${prefix}${key}-${modeKey.replace(/ /g, "-")}: rgba(${r}, ${g}, ${b}, ${a});`;
+                                    } else {
+                                        cssVariable = `--${prefix}${key}: rgba(${r}, ${g}, ${b}, ${a});`;
+                                    }
+                                    cssVariables.push(cssVariable);
+                                }
                             }
-                            cssVariables.push(cssVariable);
                         }
+                    } else {
+                        cssVariables = cssVariables.concat(jsonToCssVariables(item, `${prefix}${key}-`));
                     }
                 }
-            } else {
-                cssVariables = cssVariables.concat(jsonToCssVariables(item, `${prefix}${key}-`));
             }
+            return cssVariables.join('\n');
         }
-    }
-    return cssVariables.join('\n');
-}
 
-function jsonToAngular(json, collectionName, prefix = "") {
-    let angularColors = [];
-    for (const key in json) {
-        if (json.hasOwnProperty(key)) {
-            const item = json[key];
-            if (item.type === "COLOR") {
-                const modes = Object.keys(item.Mode);
-                for (const modeKey in item.Mode) {
-                    if (item.Mode.hasOwnProperty(modeKey)) {
-                        const mode = item.Mode[modeKey];
-                        if (mode.type !== "VARIABLE_ALIAS") {
-                            const r = Math.round(mode.r * 255);
-                            const g = Math.round(mode.g * 255);
-                            const b = Math.round(mode.b * 255);
-                            const a = mode.a;
-                            let angularColor;
-                            if (modes.length > 1) {
-                                angularColor = `${prefix}${key}_${modeKey.replace(/ /g, "_")}: 'rgba(${r}, ${g}, ${b}, ${a})',`;
-                            } else {
-                                angularColor = `${prefix}${key}: 'rgba(${r}, ${g}, ${b}, ${a})',`;
+        function jsonToAngular(json, collectionName, prefix = "") {
+            let angularColors = [];
+            for (const key in json) {
+                if (json.hasOwnProperty(key)) {
+                    const item = json[key];
+                    if (item.type === "COLOR") {
+                        const modes = Object.keys(item.Mode);
+                        for (const modeKey in item.Mode) {
+                            if (item.Mode.hasOwnProperty(modeKey)) {
+                                const mode = item.Mode[modeKey];
+                                if (mode.type !== "VARIABLE_ALIAS") {
+                                    const r = Math.round(mode.r * 255);
+                                    const g = Math.round(mode.g * 255);
+                                    const b = Math.round(mode.b * 255);
+                                    const a = mode.a;
+                                    let angularColor;
+                                    if (modes.length > 1) {
+                                        angularColor = `${prefix}${key}_${modeKey.replace(/ /g, "_")}: 'rgba(${r}, ${g}, ${b}, ${a})',`;
+                                    } else {
+                                        angularColor = `${prefix}${key}: 'rgba(${r}, ${g}, ${b}, ${a})',`;
+                                    }
+                                    angularColors.push(angularColor);
+                                }
                             }
-                            angularColors.push(angularColor);
                         }
+                    } else {
+                        const nestedColors = jsonToAngular(item, collectionName, `${prefix}${key}_`);
+                        angularColors.push(nestedColors);
                     }
                 }
+            }
+
+            if (prefix === "") {
+                const angularColorsCode = `export const ${collectionName} = {\n${angularColors.join('\n')}};`;
+                return angularColorsCode;
             } else {
-                const nestedColors = jsonToAngular(item, collectionName, `${prefix}${key}_`);
-                angularColors.push(nestedColors);
+                return angularColors.join('\n');
             }
         }
-    }
-
-    if (prefix === "") {
-        const angularColorsCode = `export const ${collectionName} = {\n${angularColors.join('\n')}};`;
-        return angularColorsCode;
-    } else {
-        return angularColors.join('\n');
-    }
-}
 
 
 
@@ -634,89 +634,85 @@ function jsonToAngular(json, collectionName, prefix = "") {
         function transformJson(json) {
             const transformed = {};
             for (const key in json) {
-                const value = json[key];
-                // Check if the value is an object and contains a Mode object
-                if (value && typeof value === 'object') {
-                    if (value.Mode) {
-                        processColor(value, transformed, key);
-                    } else {
-                        for (const innerKey in value) {
-                            if (value[innerKey] && value[innerKey].Mode) {
-                                processColor(value[innerKey], transformed, `${key}/${innerKey}`);
-                            }
-                        }
-                    }
-                }
+                processColor(json[key], transformed, key);
             }
             return {
                 "colors": transformed
             };
         }
-
 
         function transformJsonHsl(json) {
             const transformed = {};
             for (const key in json) {
-                const value = json[key];
-                // Check if the value is an object and contains a Mode object
-                if (value && typeof value === 'object') {
-                    if (value.Mode) {
-                        processColorHsl(value, transformed, key);
-                    } else {
-                        for (const innerKey in value) {
-                            if (value[innerKey] && value[innerKey].Mode) {
-                                processColorHsl(value[innerKey], transformed, `${key}/${innerKey}`);
-                            }
-                        }
-                    }
-                }
+                processColorHsl(json[key], transformed, key);
             }
             return {
                 "colors": transformed
             };
         }
 
-        function processColor(value, transformed, key) {
-            const modes = Object.keys(value.Mode);
-            if (modes.length === 1) {
-                const modeValue = value.Mode[modes[0]];
-                if (modeValue && typeof modeValue === "object" && modeValue.r !== undefined) {
-                    const color = rgbaToHex(modeValue);
-                    addToHierarchy(transformed, key, color);
-                }
-            } else {
-                for (let i = 0; i < modes.length; i++) {
-                    const modeKey = modes[i];
-                    const modeValue = value.Mode[modeKey];
+
+        function processColor(value, transformed, path) {
+            // Check if value is a valid Mode object
+            if (value && typeof value === 'object' && value.Mode) {
+                const modes = Object.keys(value.Mode);
+                if (modes.length === 1) {
+                    const modeValue = value.Mode[modes[0]];
                     if (modeValue && typeof modeValue === "object" && modeValue.r !== undefined) {
                         const color = rgbaToHex(modeValue);
-                        if (i === 0) {
-                            addToHierarchy(transformed, `${key}/DEFAULT`, color);
+                        addToHierarchy(transformed, path, color);
+                    }
+                } else {
+                    for (let i = 0; i < modes.length; i++) {
+                        const modeKey = modes[i];
+                        const modeValue = value.Mode[modeKey];
+                        if (modeValue && typeof modeValue === "object" && modeValue.r !== undefined) {
+                            const color = rgbaToHex(modeValue);
+                            if (i === 0) {
+                                addToHierarchy(transformed, `${path}/DEFAULT`, color);
+                            }
+                            addToHierarchy(transformed, `${path}/${modeKey.toLowerCase()}`, color);
                         }
-                        addToHierarchy(transformed, `${key}/${modeKey.toLowerCase()}`, color);
+                    }
+                }
+            } else {
+                // Continue to process deeper if value is an object
+                if (value && typeof value === 'object') {
+                    for (const innerKey in value) {
+                        processColor(value[innerKey], transformed, `${path}/${innerKey}`);
                     }
                 }
             }
         }
 
-        function processColorHsl(value, transformed, key) {
-            const modes = Object.keys(value.Mode);
-            if (modes.length === 1) {
-                const modeValue = value.Mode[modes[0]];
-                if (modeValue && typeof modeValue === "object" && modeValue.r !== undefined) {
-                    const color = rgbaToHsl(modeValue);
-                    addToHierarchy(transformed, key, color);
-                }
-            } else {
-                for (let i = 0; i < modes.length; i++) {
-                    const modeKey = modes[i];
-                    const modeValue = value.Mode[modeKey];
+        function processColorHsl(value, transformed, path) {
+            // Check if value is a valid Mode object
+            if (value && typeof value === 'object' && value.Mode) {
+                const modes = Object.keys(value.Mode);
+                if (modes.length === 1) {
+                    const modeValue = value.Mode[modes[0]];
                     if (modeValue && typeof modeValue === "object" && modeValue.r !== undefined) {
                         const color = rgbaToHsl(modeValue);
-                        if (i === 0) {
-                            addToHierarchy(transformed, `${key}/DEFAULT`, color);
+                        addToHierarchy(transformed, path, color);
+                    }
+                } else {
+                    for (let i = 0; i < modes.length; i++) {
+                        const modeKey = modes[i];
+                        const modeValue = value.Mode[modeKey];
+                        if (modeValue && typeof modeValue === "object" && modeValue.r !== undefined) {
+                            const color = rgbaToHsl(modeValue);
+                            if (i === 0) {
+                                addToHierarchy(transformed, `${path}/DEFAULT`, color);
+                            }
+                            addToHierarchy(transformed, `${path}/${modeKey.toLowerCase()}`, color);
                         }
-                        addToHierarchy(transformed, `${key}/${modeKey.toLowerCase()}`, color);
+                    }
+                }
+            } else {
+                // Continue to process deeper if value is an object
+                if (value && typeof value === 'object') {
+                    for (const innerKey in value) {
+                        processColorHsl(value[innerKey], transformed, `${path}/${innerKey}`);
                     }
                 }
             }
