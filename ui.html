@@ -8,7 +8,7 @@
     <style id="figma-style"></style>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: Inter, sans-serif;
             margin: 0;
             display: flex;
             flex-direction: column;
@@ -27,7 +27,14 @@
             margin: 4px 0;
         }
         
-        .outputJson {
+        .outputJson,
+        #outputFigma,
+        #outputTailwind,
+        #outputTailwindHsl,
+        #outputSwift,
+        #outputCompose,
+        #outputAngular,
+        #outputCss {
             height: auto;
         }
         
@@ -45,6 +52,10 @@
             align-content: center;
             justify-content: center;
             align-items: center;
+        }
+        
+        p {
+            font-size: 14px;
         }
         
         .tooltip {
@@ -240,57 +251,146 @@
             display: inline-block;
             text-align: center;
         }
+        
+        .maintab {
+            display: flex;
+            border-bottom: 1px solid var(--figma-color-border);
+        }
+        
+        .maintab button {
+            float: left;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            border-radius: 0px;
+            border-bottom: 4px solid rgba(0, 0, 0, 0);
+            background: var(--figma-color-bg) !important;
+        }
+        
+        .maintab button:hover {
+            background-color: var(--figma-color-bg-hover);
+        }
+        
+        .maintab button.active {
+            border-bottom: 4px solid var(--figma-color-border-brand-strong);
+            background: var(--figma-color-bg-selected) !important;
+        }
+        
+        .maintabcontent {
+            display: none;
+            padding: 6px 12px;
+        }
+        
+        .form-importer {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .form-importer button {
+            background: var(--figma-color-bg-brand);
+            color: var(--figma-color-text-onbrand);
+        }
+        
+        .form-importer button:hover {
+            background: var(--figma-color-bg-brand-hover);
+        }
+        
+        .form-importer input {
+            display: flex;
+            padding: 8px 12px;
+            align-items: center;
+            gap: 8px;
+            align-self: stretch;
+            border-radius: 8px;
+            border: 1px solid var(--figma-color-border);
+            background: var(--figma-color-bg);
+            /* Shadow/xs */
+            box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+        }
     </style>
 </head>
 
 <body>
-    <div class="input-and-submit">
-        <div class="input-collection">
-            <label for="collections" class="collection-label">Choose a collection</label>
-            <select name="collections" id="collections" class="collection">
+    <div class="maintab">
+        <button class="maintablinks" onclick="openMainTab(event, 'MainTab1')">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M21 15V16.2C21 17.8802 21 18.7202 20.673 19.362C20.3854 19.9265 19.9265 20.3854 19.362 20.673C18.7202 21 17.8802 21 16.2 21H7.8C6.11984 21 5.27976 21 4.63803 20.673C4.07354 20.3854 3.6146 19.9265 3.32698 19.362C3 18.7202 3 17.8802 3 16.2V15M17 8L12 3M12 3L7 8M12 3V15" stroke="var(--figma-color-text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+            Exporter
+        </button>
+        <button class="maintablinks" onclick="openMainTab(event, 'MainTab2')">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M21 15V16.2C21 17.8802 21 18.7202 20.673 19.362C20.3854 19.9265 19.9265 20.3854 19.362 20.673C18.7202 21 17.8802 21 16.2 21H7.8C6.11984 21 5.27976 21 4.63803 20.673C4.07354 20.3854 3.6146 19.9265 3.32698 19.362C3 18.7202 3 17.8802 3 16.2V15M17 10L12 15M12 15L7 10M12 15V3" stroke="var(--figma-color-text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+            Importer
+        </button>
+    </div>
+
+
+
+
+    <div id="MainTab2" class="maintabcontent">
+        <form class="form-importer">
+            <label for="collection-name">Enter your collection name</label>
+            <input placeholder="Collection Name" name="collection-name" type="text" value="Collection name" />
+            <textarea required placeholder="Paste your JSON here" rows="24"></textarea>
+            <button type="submit">Import Variables</button>
+        </form>
+        <p>For more informations about formating, follow <a href="https://mart1design.notion.site/Documentation-for-JSON-Formatting-7afa36d2143f40c4a3ca927ab8991b3b?pvs=4" target="_blank">this link</a></p>
+    </div>
+
+    <div id="MainTab1" class="maintabcontent">
+        <div class="input-and-submit">
+            <div class="input-collection">
+                <label for="collections" class="collection-label">Choose a collection</label>
+                <select name="collections" id="collections" class="collection">
                 <option value="">-- Choose collection --</option>
                 <!-- Others options -->
             </select>
+            </div>
+            <button id="fetch-button">Fetch</button>
         </div>
-        <button id="fetch-button">Fetch</button>
-    </div>
-    <div class="tabs">
-        <div class="tab hover-text" id="tab1" onclick="changeTab('tab1')">
-            <svg height="1.5em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18.5708 20C19.8328 20 20.8568 18.977 20.8568 17.714V13.143L21.9998 12L20.8568 10.857V6.286C20.8568 5.023 19.8338 4 18.5708 4M5.429 4C4.166 4 3.143 5.023 3.143 6.286V10.857L2 12L3.143 13.143V17.714C3.143 18.977 4.166 20 5.429 20" stroke="var(--figma-color-text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span class="tooltip-text" id="top">JSON</span>
+        <div class="tabs">
+            <div class="tab hover-text" id="tab1" onclick="changeTab('tab1')">
+                <svg height="1.5em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18.5708 20C19.8328 20 20.8568 18.977 20.8568 17.714V13.143L21.9998 12L20.8568 10.857V6.286C20.8568 5.023 19.8338 4 18.5708 4M5.429 4C4.166 4 3.143 5.023 3.143 6.286V10.857L2 12L3.143 13.143V17.714C3.143 18.977 4.166 20 5.429 20" stroke="var(--figma-color-text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span class="tooltip-text" id="top">JSON</span>
+            </div>
+            <div class="tab hover-text" id="tab2" onclick="changeTab('tab2')">
+                <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 24 24" fill="#06B6D4"><path d="M18.5 9.51a4.22 4.22 0 0 1-1.91-1.34A5.77 5.77 0 0 0 12 6a4.72 4.72 0 0 0-5 4 3.23 3.23 0 0 1 3.5-1.49 4.32 4.32 0 0 1 1.91 1.35A5.77 5.77 0 0 0 17 12a4.72 4.72 0 0 0 5-4 3.2 3.2 0 0 1-3.5 1.51zm-13 4.98a4.22 4.22 0 0 1 1.91 1.34A5.77 5.77 0 0 0 12 18a4.72 4.72 0 0 0 5-4 3.23 3.23 0 0 1-3.5 1.49 4.32 4.32 0 0 1-1.91-1.35A5.8 5.8 0 0 0 7 12a4.72 4.72 0 0 0-5 4 3.2 3.2 0 0 1 3.5-1.51z"></path></svg>
+                <span class="tooltip-text" id="top">TailwindCSS</span>
+            </div>
+            <div class="tab hover-text" id="tab3" onclick="changeTab('tab3')">
+                <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512" fill="#f05138"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M448 156.09c0-4.51-.08-9-.2-13.52a196.31 196.31 0 0 0-2.58-29.42 99.62 99.62 0 0 0-9.22-28A94.08 94.08 0 0 0 394.84 44a99.17 99.17 0 0 0-28-9.22 195 195 0 0 0-29.43-2.59c-4.51-.12-9-.17-13.52-.2H124.14c-4.51 0-9 .08-13.52.2-2.45.07-4.91.15-7.37.27a171.68 171.68 0 0 0-22.06 2.32 103.06 103.06 0 0 0-21.21 6.1q-3.46 1.45-6.81 3.12a94.66 94.66 0 0 0-18.39 12.32c-1.88 1.61-3.69 3.28-5.43 5A93.86 93.86 0 0 0 12 85.17a99.45 99.45 0 0 0-9.22 28 196.31 196.31 0 0 0-2.54 29.4c-.13 4.51-.18 9-.21 13.52v199.83c0 4.51.08 9 .21 13.51a196.08 196.08 0 0 0 2.58 29.42 99.3 99.3 0 0 0 9.22 28A94.31 94.31 0 0 0 53.17 468a99.47 99.47 0 0 0 28 9.21 195 195 0 0 0 29.43 2.59c4.5.12 9 .17 13.52.2H323.91c4.51 0 9-.08 13.52-.2a196.59 196.59 0 0 0 29.44-2.59 99.57 99.57 0 0 0 28-9.21A94.22 94.22 0 0 0 436 426.84a99.3 99.3 0 0 0 9.22-28 194.79 194.79 0 0 0 2.59-29.42c.12-4.5.17-9 .2-13.51V172.14c-.01-5.35-.01-10.7-.01-16.05zm-69.88 241c-20-38.93-57.23-29.27-76.31-19.47-1.72 1-3.48 2-5.25 3l-.42.25c-39.5 21-92.53 22.54-145.85-.38A234.64 234.64 0 0 1 45 290.12a230.63 230.63 0 0 0 39.17 23.37c56.36 26.4 113 24.49 153 0-57-43.85-104.6-101-141.09-147.22a197.09 197.09 0 0 1-18.78-25.9c43.7 40 112.7 90.22 137.48 104.12-52.57-55.49-98.89-123.94-96.72-121.74 82.79 83.42 159.18 130.59 159.18 130.59 2.88 1.58 5 2.85 6.73 4a127.44 127.44 0 0 0 4.16-12.47c13.22-48.33-1.66-103.58-35.31-149.2C329.61 141.75 375 229.34 356.4 303.42c-.44 1.73-.95 3.4-1.44 5.09 38.52 47.4 28.04 98.17 23.13 88.59z"/></svg>
+                <span class="tooltip-text" id="top">Swift</span>
+            </div>
+            <div class="tab hover-text" id="tab4" onclick="changeTab('tab4')">
+                <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 576 512" fill="#3ddc84"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M420.55,301.93a24,24,0,1,1,24-24,24,24,0,0,1-24,24m-265.1,0a24,24,0,1,1,24-24,24,24,0,0,1-24,24m273.7-144.48,47.94-83a10,10,0,1,0-17.27-10h0l-48.54,84.07a301.25,301.25,0,0,0-246.56,0L116.18,64.45a10,10,0,1,0-17.27,10h0l47.94,83C64.53,202.22,8.24,285.55,0,384H576c-8.24-98.45-64.54-181.78-146.85-226.55"/></svg>
+                <span class="tooltip-text" id="top">Jetpack Compose</span>
+            </div>
+            <div class="tab hover-text" id="tab5" onclick="changeTab('tab5')">
+                <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512" fill="#264de4"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M0 32l34.9 395.8L192 480l157.1-52.2L384 32H0zm313.1 80l-4.8 47.3L193 208.6l-.3.1h111.5l-12.8 146.6-98.2 28.7-98.8-29.2-6.4-73.9h48.9l3.2 38.3 52.6 13.3 54.7-15.4 3.7-61.6-166.3-.5v-.1l-.2.1-3.6-46.3L193.1 162l6.5-2.7H76.7L70.9 112h242.2z"/></svg>
+                <span class="tooltip-text" id="top">CSS</span>
+            </div>
+            <div class="tab hover-text" id="tab6" onclick="changeTab('tab6')">
+                <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512" fill="#dd1b16"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M185.7 268.1h76.2l-38.1-91.6-38.1 91.6zM223.8 32L16 106.4l31.8 275.7 176 97.9 176-97.9 31.8-275.7zM354 373.8h-48.6l-26.2-65.4H168.6l-26.2 65.4H93.7L223.8 81.5z"/></svg>
+                <span class="tooltip-text" id="top">Angular</span>
+            </div>
         </div>
-        <div class="tab hover-text" id="tab2" onclick="changeTab('tab2')">
-            <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 24 24" fill="#06B6D4"><path d="M18.5 9.51a4.22 4.22 0 0 1-1.91-1.34A5.77 5.77 0 0 0 12 6a4.72 4.72 0 0 0-5 4 3.23 3.23 0 0 1 3.5-1.49 4.32 4.32 0 0 1 1.91 1.35A5.77 5.77 0 0 0 17 12a4.72 4.72 0 0 0 5-4 3.2 3.2 0 0 1-3.5 1.51zm-13 4.98a4.22 4.22 0 0 1 1.91 1.34A5.77 5.77 0 0 0 12 18a4.72 4.72 0 0 0 5-4 3.23 3.23 0 0 1-3.5 1.49 4.32 4.32 0 0 1-1.91-1.35A5.8 5.8 0 0 0 7 12a4.72 4.72 0 0 0-5 4 3.2 3.2 0 0 1 3.5-1.51z"></path></svg>
-            <span class="tooltip-text" id="top">TailwindCSS</span>
-        </div>
-        <div class="tab hover-text" id="tab3" onclick="changeTab('tab3')">
-            <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512" fill="#f05138"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M448 156.09c0-4.51-.08-9-.2-13.52a196.31 196.31 0 0 0-2.58-29.42 99.62 99.62 0 0 0-9.22-28A94.08 94.08 0 0 0 394.84 44a99.17 99.17 0 0 0-28-9.22 195 195 0 0 0-29.43-2.59c-4.51-.12-9-.17-13.52-.2H124.14c-4.51 0-9 .08-13.52.2-2.45.07-4.91.15-7.37.27a171.68 171.68 0 0 0-22.06 2.32 103.06 103.06 0 0 0-21.21 6.1q-3.46 1.45-6.81 3.12a94.66 94.66 0 0 0-18.39 12.32c-1.88 1.61-3.69 3.28-5.43 5A93.86 93.86 0 0 0 12 85.17a99.45 99.45 0 0 0-9.22 28 196.31 196.31 0 0 0-2.54 29.4c-.13 4.51-.18 9-.21 13.52v199.83c0 4.51.08 9 .21 13.51a196.08 196.08 0 0 0 2.58 29.42 99.3 99.3 0 0 0 9.22 28A94.31 94.31 0 0 0 53.17 468a99.47 99.47 0 0 0 28 9.21 195 195 0 0 0 29.43 2.59c4.5.12 9 .17 13.52.2H323.91c4.51 0 9-.08 13.52-.2a196.59 196.59 0 0 0 29.44-2.59 99.57 99.57 0 0 0 28-9.21A94.22 94.22 0 0 0 436 426.84a99.3 99.3 0 0 0 9.22-28 194.79 194.79 0 0 0 2.59-29.42c.12-4.5.17-9 .2-13.51V172.14c-.01-5.35-.01-10.7-.01-16.05zm-69.88 241c-20-38.93-57.23-29.27-76.31-19.47-1.72 1-3.48 2-5.25 3l-.42.25c-39.5 21-92.53 22.54-145.85-.38A234.64 234.64 0 0 1 45 290.12a230.63 230.63 0 0 0 39.17 23.37c56.36 26.4 113 24.49 153 0-57-43.85-104.6-101-141.09-147.22a197.09 197.09 0 0 1-18.78-25.9c43.7 40 112.7 90.22 137.48 104.12-52.57-55.49-98.89-123.94-96.72-121.74 82.79 83.42 159.18 130.59 159.18 130.59 2.88 1.58 5 2.85 6.73 4a127.44 127.44 0 0 0 4.16-12.47c13.22-48.33-1.66-103.58-35.31-149.2C329.61 141.75 375 229.34 356.4 303.42c-.44 1.73-.95 3.4-1.44 5.09 38.52 47.4 28.04 98.17 23.13 88.59z"/></svg>
-            <span class="tooltip-text" id="top">Swift</span>
-        </div>
-        <div class="tab hover-text" id="tab4" onclick="changeTab('tab4')">
-            <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 576 512" fill="#3ddc84"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M420.55,301.93a24,24,0,1,1,24-24,24,24,0,0,1-24,24m-265.1,0a24,24,0,1,1,24-24,24,24,0,0,1-24,24m273.7-144.48,47.94-83a10,10,0,1,0-17.27-10h0l-48.54,84.07a301.25,301.25,0,0,0-246.56,0L116.18,64.45a10,10,0,1,0-17.27,10h0l47.94,83C64.53,202.22,8.24,285.55,0,384H576c-8.24-98.45-64.54-181.78-146.85-226.55"/></svg>
-            <span class="tooltip-text" id="top">Jetpack Compose</span>
-        </div>
-        <div class="tab hover-text" id="tab5" onclick="changeTab('tab5')">
-            <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512" fill="#264de4"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M0 32l34.9 395.8L192 480l157.1-52.2L384 32H0zm313.1 80l-4.8 47.3L193 208.6l-.3.1h111.5l-12.8 146.6-98.2 28.7-98.8-29.2-6.4-73.9h48.9l3.2 38.3 52.6 13.3 54.7-15.4 3.7-61.6-166.3-.5v-.1l-.2.1-3.6-46.3L193.1 162l6.5-2.7H76.7L70.9 112h242.2z"/></svg>
-            <span class="tooltip-text" id="top">CSS</span>
-        </div>
-        <div class="tab hover-text" id="tab6" onclick="changeTab('tab6')">
-            <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512" fill="#dd1b16"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M185.7 268.1h76.2l-38.1-91.6-38.1 91.6zM223.8 32L16 106.4l31.8 275.7 176 97.9 176-97.9 31.8-275.7zM354 373.8h-48.6l-26.2-65.4H168.6l-26.2 65.4H93.7L223.8 81.5z"/></svg>
-            <span class="tooltip-text" id="top">Angular</span>
-        </div>
-    </div>
 
 
 
-    <div id="content1" class="tab-content">
-        <div class="ctas">
-            <button onclick="downloadJson()" id="downloadButton">
+        <div id="content1" class="tab-content">
+            <div class="ctas">
+                <button onclick="downloadJson()" id="downloadButton">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.5 12.5V13.5C17.5 14.9001 17.5 15.6002 17.2275 16.135C16.9878 16.6054 16.6054 16.9878 16.135 17.2275C15.6002 17.5 14.9001 17.5 13.5 17.5H6.5C5.09987 17.5 4.3998 17.5 3.86502 17.2275C3.39462 16.9878 3.01217 16.6054 2.77248 16.135C2.5 15.6002 2.5 14.9001 2.5 13.5V12.5M14.1667 8.33333L10 12.5M10 12.5L5.83333 8.33333M10 12.5V2.5" stroke="var(--figma-color-icon-onbrand)" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 Download</button>
-            <button onclick="copyToClipboard()" class="secondary">
+                <button onclick="copyToClipboard()" class="secondary">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_116_1255)">
                     <path d="M6.66669 13.3334V15.6667C6.66669 16.6002 6.66669 17.0669 6.84834 17.4234C7.00813 17.737 7.2631 17.992 7.5767 18.1518C7.93322 18.3334 8.39993 18.3334 9.33335 18.3334H15.6667C16.6001 18.3334 17.0668 18.3334 17.4233 18.1518C17.7369 17.992 17.9919 17.737 18.1517 17.4234C18.3334 17.0669 18.3334 16.6002 18.3334 15.6667V9.33341C18.3334 8.39999 18.3334 7.93328 18.1517 7.57676C17.9919 7.26316 17.7369 7.00819 17.4233 6.8484C17.0668 6.66675 16.6001 6.66675 15.6667 6.66675H13.3334M4.33335 13.3334H10.6667C11.6001 13.3334 12.0668 13.3334 12.4233 13.1518C12.7369 12.992 12.9919 12.737 13.1517 12.4234C13.3334 12.0669 13.3334 11.6002 13.3334 10.6667V4.33341C13.3334 3.39999 13.3334 2.93328 13.1517 2.57676C12.9919 2.26316 12.7369 2.00819 12.4233 1.8484C12.0668 1.66675 11.6001 1.66675 10.6667 1.66675H4.33335C3.39993 1.66675 2.93322 1.66675 2.5767 1.8484C2.2631 2.00819 2.00813 2.26316 1.84834 2.57676C1.66669 2.93328 1.66669 3.39999 1.66669 4.33341V10.6667C1.66669 11.6002 1.66669 12.0669 1.84834 12.4234C2.00813 12.737 2.2631 12.992 2.5767 13.1518C2.93322 13.3334 3.39993 13.3334 4.33335 13.3334Z" stroke="var(--figma-color-icon)" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
@@ -304,322 +404,485 @@
                 Copy
                 <span class="tooltip">Copied!</span>
             </button>
+            </div>
+            <pre class="outputJson" style="display: none;"></pr><code id="output"></code></pre>
+            <pre id="outputFigma"></pre>
         </div>
-        <pre class="outputJson"></pr><code id="output"></code></pre>
-    </div>
 
-    <div id="content2" class="tab-content">
-        <h2>Hex format</h2>
-        <div class="ctas">
-            <button onclick="downloadJsonTailwind()" id="downloadButton">
+        <div id="content2" class="tab-content">
+            <h2>Hex format</h2>
+            <div class="ctas">
+                <button onclick="downloadJsonTailwind()" id="downloadButton">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.5 12.5V13.5C17.5 14.9001 17.5 15.6002 17.2275 16.135C16.9878 16.6054 16.6054 16.9878 16.135 17.2275C15.6002 17.5 14.9001 17.5 13.5 17.5H6.5C5.09987 17.5 4.3998 17.5 3.86502 17.2275C3.39462 16.9878 3.01217 16.6054 2.77248 16.135C2.5 15.6002 2.5 14.9001 2.5 13.5V12.5M14.1667 8.33333L10 12.5M10 12.5L5.83333 8.33333M10 12.5V2.5" stroke="var(--figma-color-icon-onbrand)" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 Download
             </button>
-            <button onclick="copyToClipboardTailwind()" class="secondary">
+                <button onclick="copyToClipboardTailwind()" class="secondary">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_116_1255)"><path d="M6.66669 13.3334V15.6667C6.66669 16.6002 6.66669 17.0669 6.84834 17.4234C7.00813 17.737 7.2631 17.992 7.5767 18.1518C7.93322 18.3334 8.39993 18.3334 9.33335 18.3334H15.6667C16.6001 18.3334 17.0668 18.3334 17.4233 18.1518C17.7369 17.992 17.9919 17.737 18.1517 17.4234C18.3334 17.0669 18.3334 16.6002 18.3334 15.6667V9.33341C18.3334 8.39999 18.3334 7.93328 18.1517 7.57676C17.9919 7.26316 17.7369 7.00819 17.4233 6.8484C17.0668 6.66675 16.6001 6.66675 15.6667 6.66675H13.3334M4.33335 13.3334H10.6667C11.6001 13.3334 12.0668 13.3334 12.4233 13.1518C12.7369 12.992 12.9919 12.737 13.1517 12.4234C13.3334 12.0669 13.3334 11.6002 13.3334 10.6667V4.33341C13.3334 3.39999 13.3334 2.93328 13.1517 2.57676C12.9919 2.26316 12.7369 2.00819 12.4233 1.8484C12.0668 1.66675 11.6001 1.66675 10.6667 1.66675H4.33335C3.39993 1.66675 2.93322 1.66675 2.5767 1.8484C2.2631 2.00819 2.00813 2.26316 1.84834 2.57676C1.66669 2.93328 1.66669 3.39999 1.66669 4.33341V10.6667C1.66669 11.6002 1.66669 12.0669 1.84834 12.4234C2.00813 12.737 2.2631 12.992 2.5767 13.1518C2.93322 13.3334 3.39993 13.3334 4.33335 13.3334Z" stroke="var(--figma-color-icon)" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_116_1255"><rect width="20" height="20" fill="var(--figma-color-icon)"/></clipPath></defs></svg>
                 Copy
                 <span class="tooltip">Copied!</span>
             </button>
-        </div>
-        <pre></pr><code id="outputTailwind"></code></pre>
-        <div class="divider"></div>
-        <h2>HSL format</h2>
-        <div class="ctas">
-            <button onclick="downloadJsonTailwindHsl()" id="downloadButton">
+            </div>
+            <pre></pr><code id="outputTailwind"></code></pre>
+            <div class="divider"></div>
+            <h2>HSL format</h2>
+            <div class="ctas">
+                <button onclick="downloadJsonTailwindHsl()" id="downloadButton">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.5 12.5V13.5C17.5 14.9001 17.5 15.6002 17.2275 16.135C16.9878 16.6054 16.6054 16.9878 16.135 17.2275C15.6002 17.5 14.9001 17.5 13.5 17.5H6.5C5.09987 17.5 4.3998 17.5 3.86502 17.2275C3.39462 16.9878 3.01217 16.6054 2.77248 16.135C2.5 15.6002 2.5 14.9001 2.5 13.5V12.5M14.1667 8.33333L10 12.5M10 12.5L5.83333 8.33333M10 12.5V2.5" stroke="var(--figma-color-icon-onbrand)" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 Download
             </button>
-            <button onclick="copyToClipboardTailwindHsl()" class="secondary">
+                <button onclick="copyToClipboardTailwindHsl()" class="secondary">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_116_1255)"><path d="M6.66669 13.3334V15.6667C6.66669 16.6002 6.66669 17.0669 6.84834 17.4234C7.00813 17.737 7.2631 17.992 7.5767 18.1518C7.93322 18.3334 8.39993 18.3334 9.33335 18.3334H15.6667C16.6001 18.3334 17.0668 18.3334 17.4233 18.1518C17.7369 17.992 17.9919 17.737 18.1517 17.4234C18.3334 17.0669 18.3334 16.6002 18.3334 15.6667V9.33341C18.3334 8.39999 18.3334 7.93328 18.1517 7.57676C17.9919 7.26316 17.7369 7.00819 17.4233 6.8484C17.0668 6.66675 16.6001 6.66675 15.6667 6.66675H13.3334M4.33335 13.3334H10.6667C11.6001 13.3334 12.0668 13.3334 12.4233 13.1518C12.7369 12.992 12.9919 12.737 13.1517 12.4234C13.3334 12.0669 13.3334 11.6002 13.3334 10.6667V4.33341C13.3334 3.39999 13.3334 2.93328 13.1517 2.57676C12.9919 2.26316 12.7369 2.00819 12.4233 1.8484C12.0668 1.66675 11.6001 1.66675 10.6667 1.66675H4.33335C3.39993 1.66675 2.93322 1.66675 2.5767 1.8484C2.2631 2.00819 2.00813 2.26316 1.84834 2.57676C1.66669 2.93328 1.66669 3.39999 1.66669 4.33341V10.6667C1.66669 11.6002 1.66669 12.0669 1.84834 12.4234C2.00813 12.737 2.2631 12.992 2.5767 13.1518C2.93322 13.3334 3.39993 13.3334 4.33335 13.3334Z" stroke="var(--figma-color-icon)" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_116_1255"><rect width="20" height="20" fill="var(--figma-color-icon)"/></clipPath></defs></svg>
                 Copy
                 <span class="tooltip">Copied!</span>
             </button>
+            </div>
+            <pre></pr><code id="outputTailwindHsl"></code></pre>
         </div>
-        <pre></pr><code id="outputTailwindHsl"></code></pre>
-    </div>
 
-    <div id="content3" class="tab-content">
-        <button onclick="copyToClipboardSwift()" class="secondary">
+        <div id="content3" class="tab-content">
+            <button onclick="copyToClipboardSwift()" class="secondary">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_116_1255)"><path d="M6.66669 13.3334V15.6667C6.66669 16.6002 6.66669 17.0669 6.84834 17.4234C7.00813 17.737 7.2631 17.992 7.5767 18.1518C7.93322 18.3334 8.39993 18.3334 9.33335 18.3334H15.6667C16.6001 18.3334 17.0668 18.3334 17.4233 18.1518C17.7369 17.992 17.9919 17.737 18.1517 17.4234C18.3334 17.0669 18.3334 16.6002 18.3334 15.6667V9.33341C18.3334 8.39999 18.3334 7.93328 18.1517 7.57676C17.9919 7.26316 17.7369 7.00819 17.4233 6.8484C17.0668 6.66675 16.6001 6.66675 15.6667 6.66675H13.3334M4.33335 13.3334H10.6667C11.6001 13.3334 12.0668 13.3334 12.4233 13.1518C12.7369 12.992 12.9919 12.737 13.1517 12.4234C13.3334 12.0669 13.3334 11.6002 13.3334 10.6667V4.33341C13.3334 3.39999 13.3334 2.93328 13.1517 2.57676C12.9919 2.26316 12.7369 2.00819 12.4233 1.8484C12.0668 1.66675 11.6001 1.66675 10.6667 1.66675H4.33335C3.39993 1.66675 2.93322 1.66675 2.5767 1.8484C2.2631 2.00819 2.00813 2.26316 1.84834 2.57676C1.66669 2.93328 1.66669 3.39999 1.66669 4.33341V10.6667C1.66669 11.6002 1.66669 12.0669 1.84834 12.4234C2.00813 12.737 2.2631 12.992 2.5767 13.1518C2.93322 13.3334 3.39993 13.3334 4.33335 13.3334Z" stroke="var(--figma-color-icon)" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_116_1255"><rect width="20" height="20" fill="var(--figma-color-icon)"/></clipPath></defs></svg>
                 Copy
                 <span class="tooltip">Copied!</span>
             </button>
-        <pre id="outputSwift"></pre>
-    </div>
+            <pre id="outputSwift"></pre>
+        </div>
 
-    <div id="content4" class="tab-content">
-        <button onclick="copyToClipboardCompose()" class="secondary">
+        <div id="content4" class="tab-content">
+            <button onclick="copyToClipboardCompose()" class="secondary">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_116_1255)"><path d="M6.66669 13.3334V15.6667C6.66669 16.6002 6.66669 17.0669 6.84834 17.4234C7.00813 17.737 7.2631 17.992 7.5767 18.1518C7.93322 18.3334 8.39993 18.3334 9.33335 18.3334H15.6667C16.6001 18.3334 17.0668 18.3334 17.4233 18.1518C17.7369 17.992 17.9919 17.737 18.1517 17.4234C18.3334 17.0669 18.3334 16.6002 18.3334 15.6667V9.33341C18.3334 8.39999 18.3334 7.93328 18.1517 7.57676C17.9919 7.26316 17.7369 7.00819 17.4233 6.8484C17.0668 6.66675 16.6001 6.66675 15.6667 6.66675H13.3334M4.33335 13.3334H10.6667C11.6001 13.3334 12.0668 13.3334 12.4233 13.1518C12.7369 12.992 12.9919 12.737 13.1517 12.4234C13.3334 12.0669 13.3334 11.6002 13.3334 10.6667V4.33341C13.3334 3.39999 13.3334 2.93328 13.1517 2.57676C12.9919 2.26316 12.7369 2.00819 12.4233 1.8484C12.0668 1.66675 11.6001 1.66675 10.6667 1.66675H4.33335C3.39993 1.66675 2.93322 1.66675 2.5767 1.8484C2.2631 2.00819 2.00813 2.26316 1.84834 2.57676C1.66669 2.93328 1.66669 3.39999 1.66669 4.33341V10.6667C1.66669 11.6002 1.66669 12.0669 1.84834 12.4234C2.00813 12.737 2.2631 12.992 2.5767 13.1518C2.93322 13.3334 3.39993 13.3334 4.33335 13.3334Z" stroke="var(--figma-color-icon)" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_116_1255"><rect width="20" height="20" fill="var(--figma-color-icon)"/></clipPath></defs></svg>
                 Copy
                 <span class="tooltip">Copied!</span>
             </button>
-        <pre id="outputCompose"></pre>
-    </div>
-    <div id="content5" class="tab-content">
-        <div class="ctas">
-            <button onclick="downloadCss()" id="downloadButton">
+            <pre id="outputCompose"></pre>
+        </div>
+        <div id="content5" class="tab-content">
+            <div class="ctas">
+                <button onclick="downloadCss()" id="downloadButton">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.5 12.5V13.5C17.5 14.9001 17.5 15.6002 17.2275 16.135C16.9878 16.6054 16.6054 16.9878 16.135 17.2275C15.6002 17.5 14.9001 17.5 13.5 17.5H6.5C5.09987 17.5 4.3998 17.5 3.86502 17.2275C3.39462 16.9878 3.01217 16.6054 2.77248 16.135C2.5 15.6002 2.5 14.9001 2.5 13.5V12.5M14.1667 8.33333L10 12.5M10 12.5L5.83333 8.33333M10 12.5V2.5" stroke="var(--figma-color-icon-onbrand)" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 Download
             </button>
-            <button onclick="copyToClipboardTailwindHsl()" class="secondary">
+                <button onclick="copyToClipboardTailwindHsl()" class="secondary">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_116_1255)"><path d="M6.66669 13.3334V15.6667C6.66669 16.6002 6.66669 17.0669 6.84834 17.4234C7.00813 17.737 7.2631 17.992 7.5767 18.1518C7.93322 18.3334 8.39993 18.3334 9.33335 18.3334H15.6667C16.6001 18.3334 17.0668 18.3334 17.4233 18.1518C17.7369 17.992 17.9919 17.737 18.1517 17.4234C18.3334 17.0669 18.3334 16.6002 18.3334 15.6667V9.33341C18.3334 8.39999 18.3334 7.93328 18.1517 7.57676C17.9919 7.26316 17.7369 7.00819 17.4233 6.8484C17.0668 6.66675 16.6001 6.66675 15.6667 6.66675H13.3334M4.33335 13.3334H10.6667C11.6001 13.3334 12.0668 13.3334 12.4233 13.1518C12.7369 12.992 12.9919 12.737 13.1517 12.4234C13.3334 12.0669 13.3334 11.6002 13.3334 10.6667V4.33341C13.3334 3.39999 13.3334 2.93328 13.1517 2.57676C12.9919 2.26316 12.7369 2.00819 12.4233 1.8484C12.0668 1.66675 11.6001 1.66675 10.6667 1.66675H4.33335C3.39993 1.66675 2.93322 1.66675 2.5767 1.8484C2.2631 2.00819 2.00813 2.26316 1.84834 2.57676C1.66669 2.93328 1.66669 3.39999 1.66669 4.33341V10.6667C1.66669 11.6002 1.66669 12.0669 1.84834 12.4234C2.00813 12.737 2.2631 12.992 2.5767 13.1518C2.93322 13.3334 3.39993 13.3334 4.33335 13.3334Z" stroke="var(--figma-color-icon)" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_116_1255"><rect width="20" height="20" fill="var(--figma-color-icon)"/></clipPath></defs></svg>
                 Copy
                 <span class="tooltip">Copied!</span>
             </button>
+            </div>
+            <pre id="outputCss"></pre>
         </div>
-        <pre id="outputCss"></pre>
-    </div>
-    <div id="content6" class="tab-content">
-        <button onclick="copyToClipboardAngular()" class="secondary">
+        <div id="content6" class="tab-content">
+            <button onclick="copyToClipboardAngular()" class="secondary">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_116_1255)"><path d="M6.66669 13.3334V15.6667C6.66669 16.6002 6.66669 17.0669 6.84834 17.4234C7.00813 17.737 7.2631 17.992 7.5767 18.1518C7.93322 18.3334 8.39993 18.3334 9.33335 18.3334H15.6667C16.6001 18.3334 17.0668 18.3334 17.4233 18.1518C17.7369 17.992 17.9919 17.737 18.1517 17.4234C18.3334 17.0669 18.3334 16.6002 18.3334 15.6667V9.33341C18.3334 8.39999 18.3334 7.93328 18.1517 7.57676C17.9919 7.26316 17.7369 7.00819 17.4233 6.8484C17.0668 6.66675 16.6001 6.66675 15.6667 6.66675H13.3334M4.33335 13.3334H10.6667C11.6001 13.3334 12.0668 13.3334 12.4233 13.1518C12.7369 12.992 12.9919 12.737 13.1517 12.4234C13.3334 12.0669 13.3334 11.6002 13.3334 10.6667V4.33341C13.3334 3.39999 13.3334 2.93328 13.1517 2.57676C12.9919 2.26316 12.7369 2.00819 12.4233 1.8484C12.0668 1.66675 11.6001 1.66675 10.6667 1.66675H4.33335C3.39993 1.66675 2.93322 1.66675 2.5767 1.8484C2.2631 2.00819 2.00813 2.26316 1.84834 2.57676C1.66669 2.93328 1.66669 3.39999 1.66669 4.33341V10.6667C1.66669 11.6002 1.66669 12.0669 1.84834 12.4234C2.00813 12.737 2.2631 12.992 2.5767 13.1518C2.93322 13.3334 3.39993 13.3334 4.33335 13.3334Z" stroke="var(--figma-color-icon)" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_116_1255"><rect width="20" height="20" fill="var(--figma-color-icon)"/></clipPath></defs></svg>
                 Copy
                 <span class="tooltip">Copied!</span>
             </button>
-        <pre id="outputAngular"></pre>
-    </div>
-    <script>
-        window.onmessage = (event) => {
-            const {
-                pluginMessage
-            } = event.data;
-            if (pluginMessage.type === "colorData") {
-                const outputElement = document.getElementById("output");
-                const outputTailwindElement = document.getElementById("outputTailwind");
-                const outputTailwindElementHsl = document.getElementById("outputTailwindHsl");
-                const outputElementSwift = document.getElementById("outputSwift");
-                const outputElementCompose = document.getElementById("outputCompose");
-                const outputElementCss = document.getElementById("outputCss");
-                const outputElementAngular = document.getElementById("outputAngular");
+            <pre id="outputAngular"></pre>
+        </div>
+        <script>
+            window.onmessage = (event) => {
+                const {
+                    pluginMessage
+                } = event.data;
+                if (pluginMessage.type === "colorData") {
 
-                const formattedJson = reformatJson(pluginMessage.data);
-                outputElement.textContent = JSON.stringify(formattedJson, null, 2);
+                    const outputElement = document.getElementById("output");
+                    const outputTailwindElement = document.getElementById("outputTailwind");
+                    const outputTailwindElementHsl = document.getElementById("outputTailwindHsl");
+                    const outputElementSwift = document.getElementById("outputSwift");
+                    const outputElementCompose = document.getElementById("outputCompose");
+                    const outputElementCss = document.getElementById("outputCss");
+                    const outputElementAngular = document.getElementById("outputAngular");
 
-                // swift
-                let transformedJsonSwift = jsonToSwift(formattedJson);
-                transformedJsonSwift = transformedJsonSwift.replace(/\n/g, '<br/>');
-                outputElementSwift.innerHTML = transformedJsonSwift;
+                    const formattedJson = reformatJson(pluginMessage.data);
+                    outputElement.textContent = JSON.stringify(formattedJson, null, 2);
 
-
-                //compose
-                let transformJsonCompose = jsonToCompose(formattedJson);
-                transformJsonCompose = transformJsonCompose.replace(/\n/g, '<br/>');
-                outputElementCompose.innerHTML = transformJsonCompose;
-                console.log(formattedJson);
+                    // swift
+                    let transformedJsonSwift = jsonToSwift(formattedJson);
+                    transformedJsonSwift = transformedJsonSwift.replace(/\n/g, '<br/>');
+                    outputElementSwift.innerHTML = transformedJsonSwift;
 
 
-                // Json hex
-                const transformedJson = transformJson(formattedJson);
-                outputTailwindElement.textContent = JSON.stringify(transformedJson, null, 2);
+                    //compose
+                    let transformJsonCompose = jsonToCompose(formattedJson);
+                    transformJsonCompose = transformJsonCompose.replace(/\n/g, '<br/>');
+                    outputElementCompose.innerHTML = transformJsonCompose;
+                    console.log(formattedJson);
 
 
-                //Json hsl
-                const transformedJsonHsl = transformJsonHsl(formattedJson);
-                outputTailwindElementHsl.textContent = JSON.stringify(transformedJsonHsl, null, 2);
+                    // Json hex
+                    const transformedJson = transformJson(formattedJson);
+                    outputTailwindElement.textContent = JSON.stringify(transformedJson, null, 2);
 
-                //css variables
-                let transformJsonCss = jsonToCssVariables(formattedJson);
-                transformJsonCss = transformJsonCss.replace(/\n/g, '<br/>');
-                outputElementCss.innerHTML = transformJsonCss;
 
-                //angular
-                let transformJsonAngular = jsonToAngular(formattedJson, "colors");
-                //transformJsonAngular = transformJsonAngular.replace(/\n/g, '<br/>');
-                outputElementAngular.innerHTML = transformJsonAngular;
+                    //Json hsl
+                    const transformedJsonHsl = transformJsonHsl(formattedJson);
+                    outputTailwindElementHsl.textContent = JSON.stringify(transformedJsonHsl, null, 2);
 
-            }
-            if (event.data.pluginMessage.type === "collections") {
-                const selectElement = document.getElementById("collections");
-                const collections = event.data.pluginMessage.data;
+                    //css variables
+                    let transformJsonCss = jsonToCssVariables(formattedJson);
+                    transformJsonCss = transformJsonCss.replace(/\n/g, '<br/>');
+                    outputElementCss.innerHTML = transformJsonCss;
 
-                for (const collection of collections) {
-                    const option = document.createElement("option");
-                    option.value = collection.id;
-                    option.text = collection.name;
-                    selectElement.appendChild(option);
+
+                    //angular
+                    let transformJsonAngular = jsonToAngular(formattedJson, "colors");
+                    //transformJsonAngular = transformJsonAngular.replace(/\n/g, '<br/>');
+                    outputElementAngular.innerHTML = transformJsonAngular;
+
+                }
+                if (pluginMessage.type === "EXPORT_RESULT") {
+                    document.getElementById("outputFigma").innerHTML = pluginMessage.files
+                        .map(
+                            ({
+                                fileName,
+                                body
+                            }) =>
+                            `${JSON.stringify(body, null, 2)}`
+                        )
+                        .join("\n\n\n");
+                }
+
+                if (event.data.pluginMessage.type === "collections") {
+                    const selectElement = document.getElementById("collections");
+                    const collections = event.data.pluginMessage.data;
+
+                    for (const collection of collections) {
+                        const option = document.createElement("option");
+                        option.value = collection.id;
+                        option.text = collection.name;
+                        selectElement.appendChild(option);
+                    }
+                }
+
+            };
+
+
+            document.getElementById('fetch-button').addEventListener('click', function(event) {
+                event.preventDefault();
+
+                // Obtenez l'élément select et sa valeur
+                const selectElement = document.getElementById('collections');
+                const selectedCollectionId = selectElement.value;
+                const selectedCollectionName = selectElement.options[selectElement.selectedIndex].text;
+
+                // Affichez l'id de la collection sélectionnée
+                console.log(`Selected collection id: ${selectedCollectionId}`);
+                console.log(`Selected collection name: ${selectedCollectionName}`);
+
+                // Envoyez un message à l'extension avec l'ID de la collection sélectionnée
+                parent.postMessage({
+                    pluginMessage: {
+                        type: 'fetchColorVariables',
+                        collectionId: selectedCollectionId,
+                        collectionName: selectedCollectionName,
+                    }
+                }, '*');
+            });
+
+
+            //import
+            document.querySelector("form").addEventListener("submit", (e) => {
+                const fileName = document.querySelector("input").value.trim();
+                const body = document.querySelector("textarea").value.trim();
+                e.preventDefault();
+                if (isValidJSON(body) && fileName) {
+                    parent.postMessage({
+                            pluginMessage: {
+                                fileName,
+                                body,
+                                type: "IMPORT"
+                            }
+                        },
+                        "*"
+                    );
+                } else {
+                    alert("Invalid filename or JSON");
+                }
+            });
+
+            function isValidJSON(body) {
+                try {
+                    JSON.parse(body);
+                    return true;
+                } catch (e) {
+                    return false;
                 }
             }
 
-        };
-
-        document.getElementById('fetch-button').addEventListener('click', function() {
-            // Obtenez l'élément select et sa valeur
-            const selectElement = document.getElementById('collections');
-            const selectedCollectionId = selectElement.value;
-            const selectedCollectionName = selectElement.options[selectElement.selectedIndex].text;
-
-            // Affichez l'id de la collection sélectionnée
-            console.log(`Selected collection id: ${selectedCollectionId}`);
-            console.log(`Selected collection name: ${selectedCollectionName}`);
-
-            // Envoyez un message à l'extension avec l'ID de la collection sélectionnée
-            parent.postMessage({
-                pluginMessage: {
-                    type: 'fetchColorVariables',
-                    collectionId: selectedCollectionId,
-                    collectionName: selectedCollectionName,
-                }
-            }, '*');
-        });
-
-        function jsonToSwift(json, prefix = "") {
-            let swiftColors = [];
-            for (const key in json) {
-                if (json.hasOwnProperty(key)) {
-                    const item = json[key];
-                    if (item.type === "COLOR") {
-                        const modes = Object.keys(item.Mode);
-                        for (const modeKey in item.Mode) {
-                            if (item.Mode.hasOwnProperty(modeKey)) {
-                                const mode = item.Mode[modeKey];
-                                if (mode.type !== "VARIABLE_ALIAS") {
-                                    const r = mode.r;
-                                    const g = mode.g;
-                                    const b = mode.b;
-                                    const a = mode.a;
-                                    let swiftColor;
-                                    if (modes.length > 1) {
-                                        swiftColor = `let ${prefix}${key}_${modeKey.replace(/ /g, "_")} = Color(red: ${r}, green: ${g}, blue: ${b}, alpha: ${a})`;
-                                    } else {
-                                        swiftColor = `let ${prefix}${key} = Color(red: ${r}, green: ${g}, blue: ${b}, alpha: ${a})`;
+            function jsonToSwift(json, prefix = "") {
+                let swiftColors = [];
+                for (const key in json) {
+                    if (json.hasOwnProperty(key)) {
+                        const item = json[key];
+                        if (item.type === "COLOR") {
+                            const modes = Object.keys(item.Mode);
+                            for (const modeKey in item.Mode) {
+                                if (item.Mode.hasOwnProperty(modeKey)) {
+                                    const mode = item.Mode[modeKey];
+                                    if (mode.type !== "VARIABLE_ALIAS") {
+                                        const r = mode.r;
+                                        const g = mode.g;
+                                        const b = mode.b;
+                                        const a = mode.a;
+                                        let swiftColor;
+                                        if (modes.length > 1) {
+                                            swiftColor = `let ${prefix}${key}_${modeKey.replace(/ /g, "_")} = Color(red: ${r}, green: ${g}, blue: ${b}, alpha: ${a})`;
+                                        } else {
+                                            swiftColor = `let ${prefix}${key} = Color(red: ${r}, green: ${g}, blue: ${b}, alpha: ${a})`;
+                                        }
+                                        swiftColors.push(swiftColor);
                                     }
-                                    swiftColors.push(swiftColor);
                                 }
                             }
+                        } else {
+                            swiftColors = swiftColors.concat(jsonToSwift(item, `${prefix}${key}_`));
+                        }
+                    }
+                }
+                return swiftColors.join('\n');
+            }
+
+
+
+            function jsonToCompose(json, prefix = "") {
+                let composeColors = [];
+                for (const key in json) {
+                    if (json.hasOwnProperty(key)) {
+                        const item = json[key];
+                        if (item.type === "COLOR") {
+                            const modes = Object.keys(item.Mode);
+                            for (const modeKey in item.Mode) {
+                                if (item.Mode.hasOwnProperty(modeKey)) {
+                                    const mode = item.Mode[modeKey];
+                                    if (mode.type !== "VARIABLE_ALIAS") {
+                                        const r = Math.round(mode.r * 255);
+                                        const g = Math.round(mode.g * 255);
+                                        const b = Math.round(mode.b * 255);
+                                        const a = Math.round(mode.a * 255);
+                                        let composeColor;
+                                        if (modes.length > 1) {
+                                            composeColor = `val ${prefix}${key}_${modeKey.replace(/ /g, "_")} = Color(0x${a.toString(16).padStart(2, '0')}${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')})`;
+                                        } else {
+                                            composeColor = `val ${prefix}${key} = Color(0x${a.toString(16).padStart(2, '0')}${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')})`;
+                                        }
+                                        composeColors.push(composeColor);
+                                    }
+                                }
+                            }
+                        } else {
+                            composeColors = composeColors.concat(jsonToCompose(item, `${prefix}${key}_`));
+                        }
+                    }
+                }
+                return composeColors.join('\n');
+            }
+
+
+            function jsonToCssVariables(json, prefix = "") {
+                let cssVariables = [];
+                for (const key in json) {
+                    if (json.hasOwnProperty(key)) {
+                        const item = json[key];
+                        if (item.type === "COLOR") {
+                            const modes = Object.keys(item.Mode);
+                            for (const modeKey in item.Mode) {
+                                if (item.Mode.hasOwnProperty(modeKey)) {
+                                    const mode = item.Mode[modeKey];
+                                    if (mode.type !== "VARIABLE_ALIAS") {
+                                        const r = Math.round(mode.r * 255);
+                                        const g = Math.round(mode.g * 255);
+                                        const b = Math.round(mode.b * 255);
+                                        const a = mode.a;
+                                        let cssVariable;
+                                        if (modes.length > 1) {
+                                            cssVariable = `--${prefix}${key}-${modeKey.replace(/ /g, "-")}: rgba(${r}, ${g}, ${b}, ${a});`;
+                                        } else {
+                                            cssVariable = `--${prefix}${key}: rgba(${r}, ${g}, ${b}, ${a});`;
+                                        }
+                                        cssVariables.push(cssVariable);
+                                    }
+                                }
+                            }
+                        } else {
+                            cssVariables = cssVariables.concat(jsonToCssVariables(item, `${prefix}${key}-`));
+                        }
+                    }
+                }
+                return cssVariables.join('\n');
+            }
+
+            function jsonToAngular(json, collectionName, prefix = "") {
+                let angularColors = [];
+                for (const key in json) {
+                    if (json.hasOwnProperty(key)) {
+                        const item = json[key];
+                        if (item.type === "COLOR") {
+                            const modes = Object.keys(item.Mode);
+                            for (const modeKey in item.Mode) {
+                                if (item.Mode.hasOwnProperty(modeKey)) {
+                                    const mode = item.Mode[modeKey];
+                                    if (mode.type !== "VARIABLE_ALIAS") {
+                                        const r = Math.round(mode.r * 255);
+                                        const g = Math.round(mode.g * 255);
+                                        const b = Math.round(mode.b * 255);
+                                        const a = mode.a;
+                                        let angularColor;
+                                        if (modes.length > 1) {
+                                            angularColor = `${prefix}${key}_${modeKey.replace(/ /g, "_")}: 'rgba(${r}, ${g}, ${b}, ${a})',`;
+                                        } else {
+                                            angularColor = `${prefix}${key}: 'rgba(${r}, ${g}, ${b}, ${a})',`;
+                                        }
+                                        angularColors.push(angularColor);
+                                    }
+                                }
+                            }
+                        } else {
+                            const nestedColors = jsonToAngular(item, collectionName, `${prefix}${key}_`);
+                            angularColors.push(nestedColors);
+                        }
+                    }
+                }
+
+                if (prefix === "") {
+                    const angularColorsCode = `export const ${collectionName} = {\n${angularColors.join('\n')}};`;
+                    return angularColorsCode;
+                } else {
+                    return angularColors.join('\n');
+                }
+            }
+
+
+
+
+
+
+
+
+
+            function reformatJson(json) {
+                const result = {};
+                for (const key in json) {
+                    const parts = key.split('/');
+                    let current = result;
+                    for (let i = 0; i < parts.length; i++) {
+                        // Replace slashes with dashes and spaces with underscores
+                        const part = parts[i].replace(/\//g, '-').replace(/\s/g, '_');
+                        if (i === parts.length - 1) {
+                            current[part] = {...json[key]
+                            };
+                            if (typeof current[part].name === 'string') {
+                                current[part].name = current[part].name.replace(/\//g, '-').replace(/\s/g, '_');
+                            }
+                        } else {
+                            if (!(part in current)) {
+                                current[part] = {};
+                            }
+                            current = current[part];
+                        }
+                    }
+                }
+                return result;
+            }
+
+
+
+
+            function transformJson(json) {
+                const transformed = {};
+                for (const key in json) {
+                    processColor(json[key], transformed, key);
+                }
+                return {
+                    "colors": transformed
+                };
+            }
+
+            function transformJsonHsl(json) {
+                const transformed = {};
+                for (const key in json) {
+                    processColorHsl(json[key], transformed, key);
+                }
+                return {
+                    "colors": transformed
+                };
+            }
+
+
+            function processColor(value, transformed, path) {
+                // Check if value is a valid Mode object
+                if (value && typeof value === 'object' && value.Mode) {
+                    const modes = Object.keys(value.Mode);
+                    if (modes.length === 1) {
+                        const modeValue = value.Mode[modes[0]];
+                        if (modeValue && typeof modeValue === "object" && modeValue.r !== undefined) {
+                            const color = rgbaToHex(modeValue);
+                            addToHierarchy(transformed, path, color);
                         }
                     } else {
-                        swiftColors = swiftColors.concat(jsonToSwift(item, `${prefix}${key}_`));
+                        for (let i = 0; i < modes.length; i++) {
+                            const modeKey = modes[i];
+                            const modeValue = value.Mode[modeKey];
+                            if (modeValue && typeof modeValue === "object" && modeValue.r !== undefined) {
+                                const color = rgbaToHex(modeValue);
+                                if (i === 0) {
+                                    addToHierarchy(transformed, `${path}/DEFAULT`, color);
+                                }
+                                addToHierarchy(transformed, `${path}/${modeKey.toLowerCase()}`, color);
+                            }
+                        }
+                    }
+                } else {
+                    // Continue to process deeper if value is an object
+                    if (value && typeof value === 'object') {
+                        for (const innerKey in value) {
+                            processColor(value[innerKey], transformed, `${path}/${innerKey}`);
+                        }
                     }
                 }
             }
-            return swiftColors.join('\n');
-        }
 
-
-
-        function jsonToCompose(json, prefix = "") {
-            let composeColors = [];
-            for (const key in json) {
-                if (json.hasOwnProperty(key)) {
-                    const item = json[key];
-                    if (item.type === "COLOR") {
-                        const modes = Object.keys(item.Mode);
-                        for (const modeKey in item.Mode) {
-                            if (item.Mode.hasOwnProperty(modeKey)) {
-                                const mode = item.Mode[modeKey];
-                                if (mode.type !== "VARIABLE_ALIAS") {
-                                    const r = Math.round(mode.r * 255);
-                                    const g = Math.round(mode.g * 255);
-                                    const b = Math.round(mode.b * 255);
-                                    const a = Math.round(mode.a * 255);
-                                    let composeColor;
-                                    if (modes.length > 1) {
-                                        composeColor = `val ${prefix}${key}_${modeKey.replace(/ /g, "_")} = Color(0x${a.toString(16).padStart(2, '0')}${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')})`;
-                                    } else {
-                                        composeColor = `val ${prefix}${key} = Color(0x${a.toString(16).padStart(2, '0')}${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')})`;
-                                    }
-                                    composeColors.push(composeColor);
-                                }
-                            }
+            function processColorHsl(value, transformed, path) {
+                // Check if value is a valid Mode object
+                if (value && typeof value === 'object' && value.Mode) {
+                    const modes = Object.keys(value.Mode);
+                    if (modes.length === 1) {
+                        const modeValue = value.Mode[modes[0]];
+                        if (modeValue && typeof modeValue === "object" && modeValue.r !== undefined) {
+                            const color = rgbaToHsl(modeValue);
+                            addToHierarchy(transformed, path, color);
                         }
                     } else {
-                        composeColors = composeColors.concat(jsonToCompose(item, `${prefix}${key}_`));
+                        for (let i = 0; i < modes.length; i++) {
+                            const modeKey = modes[i];
+                            const modeValue = value.Mode[modeKey];
+                            if (modeValue && typeof modeValue === "object" && modeValue.r !== undefined) {
+                                const color = rgbaToHsl(modeValue);
+                                if (i === 0) {
+                                    addToHierarchy(transformed, `${path}/DEFAULT`, color);
+                                }
+                                addToHierarchy(transformed, `${path}/${modeKey.toLowerCase()}`, color);
+                            }
+                        }
                     }
-                }
-            }
-            return composeColors.join('\n');
-        }
-
-
-        function jsonToCssVariables(json, prefix = "") {
-            let cssVariables = [];
-            for (const key in json) {
-                if (json.hasOwnProperty(key)) {
-                    const item = json[key];
-                    if (item.type === "COLOR") {
-                        const modes = Object.keys(item.Mode);
-                        for (const modeKey in item.Mode) {
-                            if (item.Mode.hasOwnProperty(modeKey)) {
-                                const mode = item.Mode[modeKey];
-                                if (mode.type !== "VARIABLE_ALIAS") {
-                                    const r = Math.round(mode.r * 255);
-                                    const g = Math.round(mode.g * 255);
-                                    const b = Math.round(mode.b * 255);
-                                    const a = mode.a;
-                                    let cssVariable;
-                                    if (modes.length > 1) {
-                                        cssVariable = `--${prefix}${key}-${modeKey.replace(/ /g, "-")}: rgba(${r}, ${g}, ${b}, ${a});`;
-                                    } else {
-                                        cssVariable = `--${prefix}${key}: rgba(${r}, ${g}, ${b}, ${a});`;
-                                    }
-                                    cssVariables.push(cssVariable);
-                                }
-                            }
+                } else {
+                    // Continue to process deeper if value is an object
+                    if (value && typeof value === 'object') {
+                        for (const innerKey in value) {
+                            processColorHsl(value[innerKey], transformed, `${path}/${innerKey}`);
                         }
-                    } else {
-                        cssVariables = cssVariables.concat(jsonToCssVariables(item, `${prefix}${key}-`));
-                    }
-                }
-            }
-            return cssVariables.join('\n');
-        }
-
-        function jsonToAngular(json, collectionName, prefix = "") {
-            let angularColors = [];
-            for (const key in json) {
-                if (json.hasOwnProperty(key)) {
-                    const item = json[key];
-                    if (item.type === "COLOR") {
-                        const modes = Object.keys(item.Mode);
-                        for (const modeKey in item.Mode) {
-                            if (item.Mode.hasOwnProperty(modeKey)) {
-                                const mode = item.Mode[modeKey];
-                                if (mode.type !== "VARIABLE_ALIAS") {
-                                    const r = Math.round(mode.r * 255);
-                                    const g = Math.round(mode.g * 255);
-                                    const b = Math.round(mode.b * 255);
-                                    const a = mode.a;
-                                    let angularColor;
-                                    if (modes.length > 1) {
-                                        angularColor = `${prefix}${key}_${modeKey.replace(/ /g, "_")}: 'rgba(${r}, ${g}, ${b}, ${a})',`;
-                                    } else {
-                                        angularColor = `${prefix}${key}: 'rgba(${r}, ${g}, ${b}, ${a})',`;
-                                    }
-                                    angularColors.push(angularColor);
-                                }
-                            }
-                        }
-                    } else {
-                        const nestedColors = jsonToAngular(item, collectionName, `${prefix}${key}_`);
-                        angularColors.push(nestedColors);
                     }
                 }
             }
 
-            if (prefix === "") {
-                const angularColorsCode = `export const ${collectionName} = {\n${angularColors.join('\n')}};`;
-                return angularColorsCode;
-            } else {
-                return angularColors.join('\n');
-            }
-        }
 
 
-
-
-
-
-
-
-
-        function reformatJson(json) {
-            const result = {};
-            for (const key in json) {
+            function addToHierarchy(transformed, key, color) {
                 const parts = key.split('/');
-                let current = result;
+                let current = transformed;
                 for (let i = 0; i < parts.length; i++) {
                     const part = parts[i];
                     if (i === parts.length - 1) {
-                        current[part] = json[key];
+                        current[part] = color;
                     } else {
                         if (!(part in current)) {
                             current[part] = {};
@@ -628,397 +891,309 @@
                     }
                 }
             }
-            return result;
-        }
 
-        function transformJson(json) {
-            const transformed = {};
-            for (const key in json) {
-                processColor(json[key], transformed, key);
+
+            function rgbaToHex(rgba) {
+                // Convert RGBA to hex
+                const r = Math.round(rgba.r * 255);
+                const g = Math.round(rgba.g * 255);
+                const b = Math.round(rgba.b * 255);
+                return "#" + ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1).toUpperCase();
             }
-            return {
-                "colors": transformed
-            };
-        }
 
-        function transformJsonHsl(json) {
-            const transformed = {};
-            for (const key in json) {
-                processColorHsl(json[key], transformed, key);
-            }
-            return {
-                "colors": transformed
-            };
-        }
+            function rgbaToHsl(rgba) {
+                const r = rgba.r;
+                const g = rgba.g;
+                const b = rgba.b;
 
+                const max = Math.max(r, g, b);
+                const min = Math.min(r, g, b);
 
-        function processColor(value, transformed, path) {
-            // Check if value is a valid Mode object
-            if (value && typeof value === 'object' && value.Mode) {
-                const modes = Object.keys(value.Mode);
-                if (modes.length === 1) {
-                    const modeValue = value.Mode[modes[0]];
-                    if (modeValue && typeof modeValue === "object" && modeValue.r !== undefined) {
-                        const color = rgbaToHex(modeValue);
-                        addToHierarchy(transformed, path, color);
-                    }
+                let h, s, l;
+                h = s = l = (max + min) / 2;
+
+                if (max === min) {
+                    h = s = 0; // achromatic
                 } else {
-                    for (let i = 0; i < modes.length; i++) {
-                        const modeKey = modes[i];
-                        const modeValue = value.Mode[modeKey];
-                        if (modeValue && typeof modeValue === "object" && modeValue.r !== undefined) {
-                            const color = rgbaToHex(modeValue);
-                            if (i === 0) {
-                                addToHierarchy(transformed, `${path}/DEFAULT`, color);
-                            }
-                            addToHierarchy(transformed, `${path}/${modeKey.toLowerCase()}`, color);
-                        }
+                    const d = max - min;
+                    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+
+                    switch (max) {
+                        case r:
+                            h = (g - b) / d + (g < b ? 6 : 0);
+                            break;
+                        case g:
+                            h = (b - r) / d + 2;
+                            break;
+                        case b:
+                            h = (r - g) / d + 4;
+                            break;
                     }
-                }
-            } else {
-                // Continue to process deeper if value is an object
-                if (value && typeof value === 'object') {
-                    for (const innerKey in value) {
-                        processColor(value[innerKey], transformed, `${path}/${innerKey}`);
-                    }
-                }
-            }
-        }
 
-        function processColorHsl(value, transformed, path) {
-            // Check if value is a valid Mode object
-            if (value && typeof value === 'object' && value.Mode) {
-                const modes = Object.keys(value.Mode);
-                if (modes.length === 1) {
-                    const modeValue = value.Mode[modes[0]];
-                    if (modeValue && typeof modeValue === "object" && modeValue.r !== undefined) {
-                        const color = rgbaToHsl(modeValue);
-                        addToHierarchy(transformed, path, color);
-                    }
-                } else {
-                    for (let i = 0; i < modes.length; i++) {
-                        const modeKey = modes[i];
-                        const modeValue = value.Mode[modeKey];
-                        if (modeValue && typeof modeValue === "object" && modeValue.r !== undefined) {
-                            const color = rgbaToHsl(modeValue);
-                            if (i === 0) {
-                                addToHierarchy(transformed, `${path}/DEFAULT`, color);
-                            }
-                            addToHierarchy(transformed, `${path}/${modeKey.toLowerCase()}`, color);
-                        }
-                    }
-                }
-            } else {
-                // Continue to process deeper if value is an object
-                if (value && typeof value === 'object') {
-                    for (const innerKey in value) {
-                        processColorHsl(value[innerKey], transformed, `${path}/${innerKey}`);
-                    }
-                }
-            }
-        }
-
-
-
-        function addToHierarchy(transformed, key, color) {
-            const parts = key.split('/');
-            let current = transformed;
-            for (let i = 0; i < parts.length; i++) {
-                const part = parts[i];
-                if (i === parts.length - 1) {
-                    current[part] = color;
-                } else {
-                    if (!(part in current)) {
-                        current[part] = {};
-                    }
-                    current = current[part];
-                }
-            }
-        }
-
-
-        function rgbaToHex(rgba) {
-            // Convert RGBA to hex
-            const r = Math.round(rgba.r * 255);
-            const g = Math.round(rgba.g * 255);
-            const b = Math.round(rgba.b * 255);
-            return "#" + ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1).toUpperCase();
-        }
-
-        function rgbaToHsl(rgba) {
-            const r = rgba.r;
-            const g = rgba.g;
-            const b = rgba.b;
-
-            const max = Math.max(r, g, b);
-            const min = Math.min(r, g, b);
-
-            let h, s, l;
-            h = s = l = (max + min) / 2;
-
-            if (max === min) {
-                h = s = 0; // achromatic
-            } else {
-                const d = max - min;
-                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-
-                switch (max) {
-                    case r:
-                        h = (g - b) / d + (g < b ? 6 : 0);
-                        break;
-                    case g:
-                        h = (b - r) / d + 2;
-                        break;
-                    case b:
-                        h = (r - g) / d + 4;
-                        break;
+                    h /= 6;
                 }
 
-                h /= 6;
+                const hsl = `hsl(${Math.round(h * 360)}, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%)`;
+                return hsl;
             }
 
-            const hsl = `hsl(${Math.round(h * 360)}, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%)`;
-            return hsl;
-        }
 
 
 
 
-
-        function copyToClipboard() {
-            const str = document.getElementById("output").textContent;
-            const el = document.createElement("textarea");
-            el.value = str;
-            el.setAttribute("readonly", "");
-            el.style = {
-                position: "absolute",
-                left: "-9999px"
-            };
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand("copy");
-            document.body.removeChild(el);
-            var tooltip = document.querySelector(".tooltip");
-            tooltip.style.visibility = "visible";
-            setTimeout(function() {
-                tooltip.style.visibility = "hidden";
-            }, 1000);
-        }
-
-        function copyToClipboardTailwind() {
-            const str = document.getElementById("outputTailwind").textContent;
-            const el = document.createElement("textarea");
-            el.value = str;
-            el.setAttribute("readonly", "");
-            el.style = {
-                position: "absolute",
-                left: "-9999px"
-            };
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand("copy");
-            document.body.removeChild(el);
-            var tooltip = document.querySelector(".tooltip");
-            tooltip.style.visibility = "visible";
-            setTimeout(function() {
-                tooltip.style.visibility = "hidden";
-            }, 1000);
-        }
-
-        function copyToClipboardTailwindHsl() {
-            const str = document.getElementById("outputTailwindHsl").textContent;
-            const el = document.createElement("textarea");
-            el.value = str;
-            el.setAttribute("readonly", "");
-            el.style = {
-                position: "absolute",
-                left: "-9999px"
-            };
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand("copy");
-            document.body.removeChild(el);
-            var tooltip = document.querySelector(".tooltip");
-            tooltip.style.visibility = "visible";
-            setTimeout(function() {
-                tooltip.style.visibility = "hidden";
-            }, 1000);
-        }
-
-        function copyToClipboardCss() {
-            const str = document.getElementById("outputCss").textContent;
-            const el = document.createElement("textarea");
-            el.value = str;
-            el.setAttribute("readonly", "");
-            el.style = {
-                position: "absolute",
-                left: "-9999px"
-            };
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand("copy");
-            document.body.removeChild(el);
-            var tooltip = document.querySelector(".tooltip");
-            tooltip.style.visibility = "visible";
-            setTimeout(function() {
-                tooltip.style.visibility = "hidden";
-            }, 1000);
-        }
-
-        function copyToClipboardAngular() {
-            const str = document.getElementById("outputAngular").textContent;
-            const el = document.createElement("textarea");
-            el.value = str;
-            el.setAttribute("readonly", "");
-            el.style = {
-                position: "absolute",
-                left: "-9999px"
-            };
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand("copy");
-            document.body.removeChild(el);
-            var tooltip = document.querySelector(".tooltip");
-            tooltip.style.visibility = "visible";
-            setTimeout(function() {
-                tooltip.style.visibility = "hidden";
-            }, 1000);
-        }
-
-        function copyToClipboardSwift() {
-            const str = document.getElementById("outputSwift").textContent;
-            const el = document.createElement("textarea");
-            el.value = str;
-            el.setAttribute("readonly", "");
-            el.style = {
-                position: "absolute",
-                left: "-9999px"
-            };
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand("copy");
-            document.body.removeChild(el);
-            var tooltip = document.querySelector(".tooltip");
-            tooltip.style.visibility = "visible";
-            setTimeout(function() {
-                tooltip.style.visibility = "hidden";
-            }, 1000);
-        }
-
-        function copyToClipboardCompose() {
-            const str = document.getElementById("outputCompose").textContent;
-            const el = document.createElement("textarea");
-            el.value = str;
-            el.setAttribute("readonly", "");
-            el.style = {
-                position: "absolute",
-                left: "-9999px"
-            };
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand("copy");
-            document.body.removeChild(el);
-            var tooltip = document.querySelector(".tooltip");
-            tooltip.style.visibility = "visible";
-            setTimeout(function() {
-                tooltip.style.visibility = "hidden";
-            }, 1000);
-        }
-
-        function showTab(id) {
-            const tabs = document.querySelectorAll('.tab');
-            for (let i = 0; i < tabs.length; i++) {
-                tabs[i].style.display = 'none';
+            function copyToClipboard() {
+                const str = document.getElementById("outputFigma").textContent;
+                const el = document.createElement("textarea");
+                el.value = str;
+                el.setAttribute("readonly", "");
+                el.style = {
+                    position: "absolute",
+                    left: "-9999px"
+                };
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand("copy");
+                document.body.removeChild(el);
+                var tooltip = document.querySelector(".tooltip");
+                tooltip.style.visibility = "visible";
+                setTimeout(function() {
+                    tooltip.style.visibility = "hidden";
+                }, 1000);
             }
-            document.getElementById(id).style.display = 'block';
-        }
 
-        function changeTab(tabId) {
-            var tabs = document.querySelectorAll('.tab');
-            var contents = document.querySelectorAll('.tab-content');
+            function copyToClipboardTailwind() {
+                const str = document.getElementById("outputTailwind").textContent;
+                const el = document.createElement("textarea");
+                el.value = str;
+                el.setAttribute("readonly", "");
+                el.style = {
+                    position: "absolute",
+                    left: "-9999px"
+                };
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand("copy");
+                document.body.removeChild(el);
+                var tooltip = document.querySelector(".tooltip");
+                tooltip.style.visibility = "visible";
+                setTimeout(function() {
+                    tooltip.style.visibility = "hidden";
+                }, 1000);
+            }
 
-            tabs.forEach(tab => {
-                if (tab.id === tabId) {
-                    tab.classList.add('active');
-                } else {
-                    tab.classList.remove('active');
+            function copyToClipboardTailwindHsl() {
+                const str = document.getElementById("outputTailwindHsl").textContent;
+                const el = document.createElement("textarea");
+                el.value = str;
+                el.setAttribute("readonly", "");
+                el.style = {
+                    position: "absolute",
+                    left: "-9999px"
+                };
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand("copy");
+                document.body.removeChild(el);
+                var tooltip = document.querySelector(".tooltip");
+                tooltip.style.visibility = "visible";
+                setTimeout(function() {
+                    tooltip.style.visibility = "hidden";
+                }, 1000);
+            }
+
+            function copyToClipboardCss() {
+                const str = document.getElementById("outputCss").textContent;
+                const el = document.createElement("textarea");
+                el.value = str;
+                el.setAttribute("readonly", "");
+                el.style = {
+                    position: "absolute",
+                    left: "-9999px"
+                };
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand("copy");
+                document.body.removeChild(el);
+                var tooltip = document.querySelector(".tooltip");
+                tooltip.style.visibility = "visible";
+                setTimeout(function() {
+                    tooltip.style.visibility = "hidden";
+                }, 1000);
+            }
+
+            function copyToClipboardAngular() {
+                const str = document.getElementById("outputAngular").textContent;
+                const el = document.createElement("textarea");
+                el.value = str;
+                el.setAttribute("readonly", "");
+                el.style = {
+                    position: "absolute",
+                    left: "-9999px"
+                };
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand("copy");
+                document.body.removeChild(el);
+                var tooltip = document.querySelector(".tooltip");
+                tooltip.style.visibility = "visible";
+                setTimeout(function() {
+                    tooltip.style.visibility = "hidden";
+                }, 1000);
+            }
+
+            function copyToClipboardSwift() {
+                const str = document.getElementById("outputSwift").textContent;
+                const el = document.createElement("textarea");
+                el.value = str;
+                el.setAttribute("readonly", "");
+                el.style = {
+                    position: "absolute",
+                    left: "-9999px"
+                };
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand("copy");
+                document.body.removeChild(el);
+                var tooltip = document.querySelector(".tooltip");
+                tooltip.style.visibility = "visible";
+                setTimeout(function() {
+                    tooltip.style.visibility = "hidden";
+                }, 1000);
+            }
+
+            function copyToClipboardCompose() {
+                const str = document.getElementById("outputCompose").textContent;
+                const el = document.createElement("textarea");
+                el.value = str;
+                el.setAttribute("readonly", "");
+                el.style = {
+                    position: "absolute",
+                    left: "-9999px"
+                };
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand("copy");
+                document.body.removeChild(el);
+                var tooltip = document.querySelector(".tooltip");
+                tooltip.style.visibility = "visible";
+                setTimeout(function() {
+                    tooltip.style.visibility = "hidden";
+                }, 1000);
+            }
+
+            function showTab(id) {
+                const tabs = document.querySelectorAll('.tab');
+                for (let i = 0; i < tabs.length; i++) {
+                    tabs[i].style.display = 'none';
                 }
-            });
+                document.getElementById(id).style.display = 'block';
+            }
 
-            contents.forEach(content => {
-                if (content.id === 'content' + tabId.charAt(tabId.length - 1)) {
-                    content.classList.add('active');
-                } else {
-                    content.classList.remove('active');
+
+
+            function changeTab(tabId) {
+                var tabs = document.querySelectorAll('.tab');
+                var contents = document.querySelectorAll('.tab-content');
+
+                tabs.forEach(tab => {
+                    if (tab.id === tabId) {
+                        tab.classList.add('active');
+                    } else {
+                        tab.classList.remove('active');
+                    }
+                });
+
+                contents.forEach(content => {
+                    if (content.id === 'content' + tabId.charAt(tabId.length - 1)) {
+                        content.classList.add('active');
+                    } else {
+                        content.classList.remove('active');
+                    }
+                });
+            }
+
+
+
+            function downloadJson() {
+                const data = document.getElementById('outputFigma').textContent;
+                const blob = new Blob([data], {
+                    type: 'application/json'
+                });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'data.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+
+
+            function downloadJsonTailwind() {
+                const data = document.getElementById('outputTailwind').textContent;
+                const blob = new Blob([data], {
+                    type: 'application/json'
+                });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'data.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+
+            function downloadJsonTailwindHsl() {
+                const data = document.getElementById('outputTailwindHsl').textContent;
+                const blob = new Blob([data], {
+                    type: 'application/json'
+                });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'data.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+
+            function downloadCss() {
+                const data = document.getElementById('outputCss').textContent;
+                const blob = new Blob([data], {
+                    type: 'application/json'
+                });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'data.css';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+
+            window.onload = function() {
+                changeTab('tab1');
+            }
+
+
+
+            function openMainTab(evt, maintabName) {
+                var i, maintabcontent, maintablinks;
+                maintabcontent = document.getElementsByClassName("maintabcontent");
+                for (i = 0; i < maintabcontent.length; i++) {
+                    maintabcontent[i].style.display = "none";
                 }
-            });
-        }
+                maintablinks = document.getElementsByClassName("maintablinks");
+                for (i = 0; i < maintablinks.length; i++) {
+                    maintablinks[i].className = maintablinks[i].className.replace(" active", "");
+                }
+                document.getElementById(maintabName).style.display = "block";
+                evt.currentTarget.className += " active";
+            }
 
-        function downloadJson() {
-            const data = document.getElementById('output').textContent;
-            const blob = new Blob([data], {
-                type: 'application/json'
-            });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'data.json';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        }
-
-
-        function downloadJsonTailwind() {
-            const data = document.getElementById('outputTailwind').textContent;
-            const blob = new Blob([data], {
-                type: 'application/json'
-            });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'data.json';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        }
-
-        function downloadJsonTailwindHsl() {
-            const data = document.getElementById('outputTailwindHsl').textContent;
-            const blob = new Blob([data], {
-                type: 'application/json'
-            });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'data.json';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        }
-
-        function downloadCss() {
-            const data = document.getElementById('outputCss').textContent;
-            const blob = new Blob([data], {
-                type: 'application/json'
-            });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'data.css';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        }
-
-
-
-
-
-        window.onload = function() {
-            changeTab('tab1');
-        }
-    </script>
+            // Get the element with class="maintablinks" and click on it
+            document.querySelector(".maintablinks").click();
+        </script>
 </body>
 
 </html>
