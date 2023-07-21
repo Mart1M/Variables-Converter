@@ -278,6 +278,9 @@ function traverseToken({
     });
   }
 }
+
+
+
 function exportToJSON(collectionId) {
   // Retrieve all the collections
   const collections = figma.variables.getLocalVariableCollections();
@@ -324,6 +327,9 @@ function processCollection(collection) {
   });
   return files;
 }
+
+
+
 
 
 

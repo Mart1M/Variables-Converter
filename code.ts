@@ -1,4 +1,4 @@
-figma.showUI(__html__, { themeColors: true });
+figma.showUI(__html__, { themeColors: true,  width: 400, height: 800 });
 
 type ColorValue = RGBA | { type: "VARIABLE_ALIAS"; id: string; name: string };
 type ModeValue = Record<string, ColorValue>;
