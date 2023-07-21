@@ -1141,7 +1141,9 @@
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = 'data.json';
+                const selectElement = document.querySelector("#collections");
+                const fileName = selectElement.options[selectElement.selectedIndex].text.trim();
+                a.download = `${fileName}.tokens.json`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
@@ -1156,7 +1158,9 @@
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = 'data.json';
+                const selectElement = document.querySelector("#collections");
+                const fileName = selectElement.options[selectElement.selectedIndex].text.trim();
+                a.download = `${fileName}.tokens.json`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
@@ -1170,7 +1174,9 @@
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = 'data.json';
+                const selectElement = document.querySelector("#collections");
+                const fileName = selectElement.options[selectElement.selectedIndex].text.trim();
+                a.download = `${fileName}.tokens.json`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
@@ -1184,7 +1190,9 @@
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = 'data.css';
+                const selectElement = document.querySelector("#collections");
+                const fileName = selectElement.options[selectElement.selectedIndex].text.trim();
+                a.download = `${fileName}.tokens.css`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
