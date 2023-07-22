@@ -1,16 +1,12 @@
 {
-  "name": "Variables Converter",
+  "name": "TokenOS",
   "id": "1254490527214920863",
   "api": "1.0.0",
   "main": "code.js",
   "enableProposedApi": false,
-  "editorType": [
-    "figma"
-  ],
+  "editorType": ["figma"],
   "ui": "ui.html",
   "networkAccess": {
-    "allowedDomains": [
-      "none"
-    ]
+    "allowedDomains": ["none"]
   }
 }

@@ -273,6 +273,9 @@ async function processAliases({ collection, modeId, aliases, tokens }) {
         });
       } else {
         console.log(`No matching token found for alias ${key}`);
+        figma.notify(`No matching token found for alias ${key}`, {
+          timeout: 5000,
+        });
       }
     }
     generations--;
