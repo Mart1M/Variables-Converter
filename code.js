@@ -1,189 +1,149 @@
 "use strict";
-var __awaiter =
-  (this && this.__awaiter) ||
-  function (thisArg, _arguments, P, generator) {
-    function adopt(value) {
-      return value instanceof P
-        ? value
-        : new P(function (resolve) {
-            resolve(value);
-          });
-    }
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
-      function fulfilled(value) {
-        try {
-          step(generator.next(value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function rejected(value) {
-        try {
-          step(generator["throw"](value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function step(result) {
-        result.done
-          ? resolve(result.value)
-          : adopt(result.value).then(fulfilled, rejected);
-      }
-      step((generator = generator.apply(thisArg, _arguments || [])).next());
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
-  };
-var __rest =
-  (this && this.__rest) ||
-  function (s, e) {
+};
+var __rest = (this && this.__rest) || function (s, e) {
     var t = {};
-    for (var p in s)
-      if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
         t[p] = s[p];
     if (s != null && typeof Object.getOwnPropertySymbols === "function")
-      for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-        if (
-          e.indexOf(p[i]) < 0 &&
-          Object.prototype.propertyIsEnumerable.call(s, p[i])
-        )
-          t[p[i]] = s[p[i]];
-      }
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
     return t;
-  };
-figma.showUI(__html__, { themeColors: true, width: 400, height: 800 });
+};
+figma.showUI(__html__, { themeColors: true, width: 400, height: 800, });
 function getVariableNameById(id) {
-  return __awaiter(this, void 0, void 0, function* () {
-    const variable = yield figma.variables.getVariableById(id);
-    return variable ? variable.name : id;
-  });
+    return __awaiter(this, void 0, void 0, function* () {
+        const variable = yield figma.variables.getVariableById(id);
+        return variable ? variable.name : id;
+    });
 }
 function sendCollectionNamesAndIds() {
-  return __awaiter(this, void 0, void 0, function* () {
-    // Récupérer les collections de variables
-    const collections = yield figma.variables.getLocalVariableCollections();
-    // Extraire à la fois l'id et le nom de chaque collection
-    const collectionsData = collections.map((collection) => ({
-      id: collection.id,
-      name: collection.name,
-    }));
-    // Envoyer les noms des collections à l'interface utilisateur
-    figma.ui.postMessage({
-      type: "collections",
-      data: collectionsData,
+    return __awaiter(this, void 0, void 0, function* () {
+        // Récupérer les collections de variables
+        const collections = yield figma.variables.getLocalVariableCollections();
+        // Extraire à la fois l'id et le nom de chaque collection
+        const collectionsData = collections.map(collection => ({ id: collection.id, name: collection.name }));
+        // Envoyer les noms des collections à l'interface utilisateur
+        figma.ui.postMessage({
+            type: 'collections',
+            data: collectionsData
+        });
     });
-  });
 }
 sendCollectionNamesAndIds();
 function getAllColorVariables(collectionId) {
-  return __awaiter(this, void 0, void 0, function* () {
-    let colorVariableData = [];
-    const allVariables = yield figma.variables.getLocalVariables("COLOR");
-    const collections = yield figma.variables.getLocalVariableCollections();
-    const getVariableNameById = (variableId) =>
-      __awaiter(this, void 0, void 0, function* () {
-        if (typeof variableId === "string") {
-          const variable = yield figma.variables.getVariableById(variableId);
-          return variable ? variable.name : "";
-        }
-        return "";
-      });
-    const getModeNameById = (modeId) => {
-      for (const collection of collections) {
-        const mode = collection.modes.find((m) => m.modeId === modeId);
-        if (mode) {
-          return mode.name;
-        }
-      }
-      return "";
-    };
-    const getValueName = (valueId) =>
-      __awaiter(this, void 0, void 0, function* () {
-        const variableId = valueId.split(":").slice(0, -1).join(":");
-        const variable = allVariables.find((v) => v.id === variableId);
-        return variable ? variable.name : valueId;
-      });
-    const selectedCollection = yield figma.variables.getVariableCollectionById(
-      collectionId
-    );
-    if (!selectedCollection) {
-      console.error("Collection not found");
-      return [];
-    }
-    const selectedVariableIds = selectedCollection
-      ? selectedCollection.variableIds
-      : [];
-    for (let variable of allVariables) {
-      if (selectedVariableIds.includes(variable.id)) {
-        let Mode = {};
-        for (const modeKey in variable.valuesByMode) {
-          const value = variable.valuesByMode[modeKey];
-          if (typeof value === "object" && value.type === "VARIABLE_ALIAS") {
-            const aliasValue = value;
-            const valueId = aliasValue.id;
-            const valueName = yield getVariableNameById(valueId);
-            const valueWithNames = {
-              type: "VARIABLE_ALIAS",
-              id: valueId,
-              name: valueName,
-            };
-            Mode[getModeNameById(modeKey)] = valueWithNames;
-          } else {
-            Mode[getModeNameById(modeKey)] = value;
-          }
-        }
-        colorVariableData.push({
-          id: variable.id,
-          name: variable.name,
-          description: variable.description,
-          type: variable.resolvedType,
-          Mode,
+    return __awaiter(this, void 0, void 0, function* () {
+        let colorVariableData = [];
+        const allVariables = yield figma.variables.getLocalVariables("COLOR");
+        const collections = yield figma.variables.getLocalVariableCollections();
+        const getVariableNameById = (variableId) => __awaiter(this, void 0, void 0, function* () {
+            if (typeof variableId === "string") {
+                const variable = yield figma.variables.getVariableById(variableId);
+                return variable ? variable.name : "";
+            }
+            return "";
         });
-      }
-    }
-    return colorVariableData;
-  });
+        const getModeNameById = (modeId) => {
+            for (const collection of collections) {
+                const mode = collection.modes.find((m) => m.modeId === modeId);
+                if (mode) {
+                    return mode.name;
+                }
+            }
+            return "";
+        };
+        const getValueName = (valueId) => __awaiter(this, void 0, void 0, function* () {
+            const variableId = valueId.split(":").slice(0, -1).join(":");
+            const variable = allVariables.find((v) => v.id === variableId);
+            return variable ? variable.name : valueId;
+        });
+        const selectedCollection = yield figma.variables.getVariableCollectionById(collectionId);
+        if (!selectedCollection) {
+            console.error('Collection not found');
+            return [];
+        }
+        const selectedVariableIds = selectedCollection ? selectedCollection.variableIds : [];
+        for (let variable of allVariables) {
+            if (selectedVariableIds.includes(variable.id)) {
+                let Mode = {};
+                for (const modeKey in variable.valuesByMode) {
+                    const value = variable.valuesByMode[modeKey];
+                    if (typeof value === "object" &&
+                        value.type === "VARIABLE_ALIAS") {
+                        const aliasValue = value;
+                        const valueId = aliasValue.id;
+                        const valueName = yield getVariableNameById(valueId);
+                        const valueWithNames = {
+                            type: "VARIABLE_ALIAS",
+                            id: valueId,
+                            name: valueName,
+                        };
+                        Mode[getModeNameById(modeKey)] = valueWithNames;
+                    }
+                    else {
+                        Mode[getModeNameById(modeKey)] = value;
+                    }
+                }
+                colorVariableData.push({
+                    id: variable.id,
+                    name: variable.name,
+                    description: variable.description,
+                    type: variable.resolvedType,
+                    Mode,
+                });
+            }
+        }
+        return colorVariableData;
+    });
 }
 function transformData(data) {
-  const transformedData = {};
-  for (let variable of data) {
-    const { id } = variable,
-      rest = __rest(variable, ["id"]);
-    const Mode = {};
-    for (const modeKey in variable.Mode) {
-      const value = variable.Mode[modeKey];
-      if (typeof value === "object" && value.type === "VARIABLE_ALIAS") {
-        const aliasValue = value;
-        const { id } = aliasValue,
-          aliasRest = __rest(aliasValue, ["id"]);
-        Mode[modeKey] = aliasRest;
-      } else {
-        Mode[modeKey] = value;
-      }
+    const transformedData = {};
+    for (let variable of data) {
+        const { id } = variable, rest = __rest(variable, ["id"]);
+        const Mode = {};
+        for (const modeKey in variable.Mode) {
+            const value = variable.Mode[modeKey];
+            if (typeof value === "object" &&
+                value.type === "VARIABLE_ALIAS") {
+                const aliasValue = value;
+                const { id } = aliasValue, aliasRest = __rest(aliasValue, ["id"]);
+                Mode[modeKey] = aliasRest;
+            }
+            else {
+                Mode[modeKey] = value;
+            }
+        }
+        transformedData[variable.name] = Object.assign(Object.assign({}, rest), { Mode });
     }
-    transformedData[variable.name] = Object.assign(Object.assign({}, rest), {
-      Mode,
-    });
-  }
-  return transformedData;
+    return transformedData;
 }
 figma.ui.onmessage = (message) => {
-  if (message.type === "fetchColorVariables") {
-    const selectedCollectionId = message.collectionId;
-    exportToJSON(selectedCollectionId);
-    getAllColorVariables(selectedCollectionId).then((colorVariableData) => {
-      const transformedData = transformData(colorVariableData);
-      figma.ui.postMessage({
-        type: "colorData",
-        data: transformedData,
-      });
-    });
-  }
-  if (message.type === "IMPORT") {
+    if (message.type === 'fetchColorVariables') {
+        const selectedCollectionId = message.collectionId;
+        exportToJSON(selectedCollectionId);
+        getAllColorVariables(selectedCollectionId).then((colorVariableData) => {
+            const transformedData = transformData(colorVariableData);
+            figma.ui.postMessage({
+                type: 'colorData',
+                data: transformedData,
+            });
+        });
+    }
+    if (message.type === "IMPORT") {
     const { fileName, body } = message;
     importJSONFile({ fileName, body });
   }
 };
 
-//console.clear();
 
 function createCollection(name) {
   const collection = figma.variables.createVariableCollection(name);
@@ -375,50 +335,62 @@ function traverseToken({
     });
   }
 }
-
 function exportToJSON(collectionId) {
   // Retrieve all the collections
   const collections = figma.variables.getLocalVariableCollections();
   // Find the specific collection using the provided ID
-  const collection = collections.find((col) => col.id === collectionId);
+  const collection = collections.find(col => col.id === collectionId);
   if (collection) {
     // Process the specific collection and post the result
     const files = processCollection(collection);
     figma.ui.postMessage({ type: "EXPORT_RESULT", files });
-  } else {
+  }
+  else {
     console.error(`No collection found with ID ${collectionId}`);
   }
 }
 
+
+
 function processCollection(collection) {
   const { name, modes, variableIds } = collection;
   const files = [];
-  modes.forEach((mode) => {
-    const file = { fileName: `${name}.tokens.json`, body: {} };
-    variableIds.forEach((variableId) => {
-      const { name, resolvedType, valuesByMode } =
-        figma.variables.getVariableById(variableId);
+  
+  // Create a base object for the file body
+  const baseBody = {};
+  
+  variableIds.forEach((variableId) => {
+    const { name, resolvedType, valuesByMode } =
+      figma.variables.getVariableById(variableId);
+    
+    let obj = baseBody;
+    name.split("/").forEach((groupName) => {
+      obj[groupName] = obj[groupName] || {};
+      obj = obj[groupName];
+    });
+    obj.$type = resolvedType === "COLOR" ? "color" : "number";
+    
+    modes.forEach((mode, index) => {
       const value = valuesByMode[mode.modeId];
       if (value !== undefined && ["COLOR", "FLOAT"].includes(resolvedType)) {
-        let obj = file.body;
-        name.split("/").forEach((groupName) => {
-          obj[groupName] = obj[groupName] || {};
-          obj = obj[groupName];
-        });
-        obj.$type = resolvedType === "COLOR" ? "color" : "number";
+        const key = index === 0 ? "$value" : `$mode${index + 1}`;
         if (value.type === "VARIABLE_ALIAS") {
-          obj.$value = `{${figma.variables
+          obj[key] = `{${figma.variables
             .getVariableById(value.id)
             .name.replace(/\//g, ".")}}`;
         } else {
-          obj.$value = resolvedType === "COLOR" ? rgbToHex(value) : value;
+          obj[key] = resolvedType === "COLOR" ? rgbToHex(value) : value;
         }
       }
     });
-    files.push(file);
   });
+  
+  files.push({ fileName: `${name}.tokens.json`, body: baseBody });
   return files;
 }
+
+
+
 
 function rgbToHex({ r, g, b, a }) {
   if (a !== 1) {
